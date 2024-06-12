@@ -1,0 +1,12 @@
+{
+  "name": "ionic-app-base",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite",
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

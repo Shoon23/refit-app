@@ -1,0 +1,167 @@
+{
+  "workoutLevels": [
+    {
+      "name": "Beginner",
+      "idealFor": "Those new to exercise.",
+      "focus": "Learn proper form, build basic fitness, start a routine.",
+      "plan": "2-3 days a week, 20-30 minutes per session, using body weight and light exercises."
+    },
+    {
+      "name": "Intermediate",
+      "idealFor": "Those with some exercise experience.",
+      "focus": "Enhance strength and endurance, diversify workouts.",
+      "plan": "3-5 days a week, 45-60 minutes per session, mixing resistance training and cardio."
+    },
+    {
+      "name": "Expert",
+      "idealFor": "Experienced fitness enthusiasts.",
+      "focus": "Optimize performance, target specific goals.",
+      "plan": "5-7 days a week, 60-90+ minutes per session, using advanced and specialized routines."
+    }
+  ],
+
+  "muscle_groups": [
+    {
+      "name": "quadriceps",
+      "info": "Front thigh muscles, crucial for leg extension and stability.",
+      "image": "quadriceps.jpeg"
+    },
+    {
+      "name": "shoulders",
+      "info": "Deltoid muscles, responsible for shoulder and arm movement.",
+      "image": "shoulders.jpeg"
+    },
+    {
+      "name": "abdominals",
+      "info": "Core muscles, important for trunk stability and flexion.",
+      "image": "abdominal.jpeg"
+    },
+    {
+      "name": "chest",
+      "info": "Pectoral muscles, essential for pushing movements.",
+      "image": "chest.jpeg"
+    },
+    {
+      "name": "hamstrings",
+      "info": "Back thigh muscles, important for leg flexion and hip extension.",
+      "image": "hamstring.jpeg"
+    },
+    {
+      "name": "triceps",
+      "info": "Back of the upper arm, responsible for arm extension.",
+      "image": "triceps.jpeg"
+    },
+    {
+      "name": "biceps",
+      "info": "Front of the upper arm, important for arm flexion.",
+      "image": "biceps.jpeg"
+    },
+    {
+      "name": "lats",
+      "info": "Latissimus dorsi, key for pulling movements and back strength.",
+      "image": "lats.jpeg"
+    },
+    {
+      "name": "middle back",
+      "info": "Rhomboids and middle trapezius, important for scapular movement and posture.",
+      "image": "back.jpeg"
+    },
+    {
+      "name": "calves",
+      "info": "Lower leg muscles, essential for ankle movement and stability.",
+      "image": "calves.jpeg"
+    },
+    {
+      "name": "lower back",
+      "info": "Erector spinae, crucial for spinal extension and posture.",
+      "image": "back.jpeg"
+    },
+    {
+      "name": "forearms",
+      "info": "Muscles of the lower arm, important for wrist and hand movements.",
+      "image": "forearms.jpeg"
+    },
+    {
+      "name": "glutes",
+      "info": "Buttock muscles, essential for hip movement and lower body power.",
+      "image": "glutes.jpeg"
+    },
+    {
+      "name": "traps",
+      "info": "Trapezius muscles, important for neck and shoulder movements.",
+      "image": "traps.jpeg"
+    },
+    {
+      "name": "adductors",
+      "info": "Inner thigh muscles, important for bringing the legs together.",
+      "image": "adductors.png"
+    },
+    {
+      "name": "abductors",
+      "info": "Outer thigh muscles, essential for moving the legs apart.",
+      "image": "abductors.png"
+    },
+    {
+      "name": "neck",
+      "info": "Cervical muscles, important for head movement and stability.",
+      "image": "neck.png"
+    }
+  ],
+  "equipment_types": [
+    {
+      "name": "barbell",
+      "info": "A long bar with weights on each end, used for compound lifts.",
+      "image": "barbell.jpeg"
+    },
+    {
+      "name": "dumbbell",
+      "info": "A short bar with weights on each end, used for various exercises.",
+      "image": "dumbbell.jpeg"
+    },
+    {
+      "name": "calisthenics",
+      "info": "Bodyweight exercises for strength and endurance.",
+      "image": "calisthenics.jpeg"
+    },
+    {
+      "name": "cable",
+      "info": "Equipment using a pulley system for resistance exercises.",
+      "image": "cable.jpeg"
+    },
+    {
+      "name": "machine",
+      "info": "Equipment that guides movements, often targeting specific muscles.",
+      "image": "machine.jpeg"
+    },
+    {
+      "name": "kettlebells",
+      "info": "Weight with a handle, used for dynamic and strength exercises.",
+      "image": "kettlebells.jpeg"
+    },
+    {
+      "name": "bands",
+      "info": "Elastic bands used for resistance training and stretching.",
+      "image": "bands.jpeg"
+    },
+    {
+      "name": "medicine ball",
+      "info": "Weighted ball used for explosive exercises and core training.",
+      "image": "medicine-ball.jpeg"
+    },
+    {
+      "name": "exercise ball",
+      "info": "Large inflatable ball used for stability and core exercises.",
+      "image": "exercise-ball.jpeg"
+    },
+    {
+      "name": "foam roll",
+      "info": "Cylindrical foam tool used for muscle recovery and myofascial release.",
+      "image": "foam-roll.jpeg"
+    },
+    {
+      "name": "e-z curl bar",
+      "info": "Curved barbell used to reduce strain during arm exercises.",
+      "image": "e-z-curl-bar.webp"
+    }
+  ]
+}
