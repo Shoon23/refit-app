@@ -26,6 +26,7 @@ import { Preferences } from "@capacitor/preferences";
 import useUserStore from "../store/userStore";
 import bgImg from "../assets/backgrounds/2.jpeg";
 import { CapacitorHttp } from "@capacitor/core";
+import { motion } from "framer-motion";
 interface iFormData {
   email: string;
   password: string;
@@ -170,13 +171,16 @@ const Login: React.FC = () => {
           buttons={["Okay"]}
           onDidDismiss={() => setIsError(false)}
         ></IonAlert>
-        <div
+        <motion.div
           style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             height: "100vh",
           }}
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ease: "easeOut", duration: 0.5 }}
         >
           <IonCard
             style={{
@@ -253,7 +257,7 @@ const Login: React.FC = () => {
               </form>
             </IonCardContent>
           </IonCard>
-        </div>
+        </motion.div>
       </IonContent>
     </IonPage>
   );

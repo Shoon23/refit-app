@@ -19,6 +19,7 @@ import main_logo from "../assets/main-logo.png";
 import { useIonRouter } from "@ionic/react";
 import bgImg from "../assets/backgrounds/1.jpeg";
 import logo from "../assets/Logo.png";
+import { motion } from "framer-motion";
 const Auth: React.FC = () => {
   const router = useIonRouter();
 
@@ -39,13 +40,16 @@ const Auth: React.FC = () => {
           zIndex: -1,
         }}
       ></div>
-      <div
+      <motion.div
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           height: "100%",
         }}
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ ease: "easeOut", duration: 0.5 }}
       >
         <IonCard>
           <IonCardContent>
@@ -95,7 +99,7 @@ const Auth: React.FC = () => {
             </IonGrid>
           </IonCardContent>
         </IonCard>
-      </div>
+      </motion.div>
     </IonPage>
   );
 };

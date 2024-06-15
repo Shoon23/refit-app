@@ -1,6 +1,14 @@
 import { create } from "zustand";
 import { WorkoutType } from "../types/workout-type";
 import { iWorkoutPlan } from "./userStore";
+
+// const [activeWP, seActiveWP] = useState<iWorkoutPlan>({
+//   id: "",
+//   name: "",
+//   is_active: false,
+//   workouts: [],
+// });
+// const [workoutPlans, setWorkoutPlans] = useState<iWorkoutPlan[]>([]);
 interface WorkoutPlanState {
   selected_workout: WorkoutType;
   day: {
@@ -20,6 +28,11 @@ interface WorkoutPlanState {
   viewDetailsWP: iWorkoutPlan;
   clearViewDetaulsWP: () => void;
   clearWorkoutPlan: () => void;
+
+  workoutPlans: iWorkoutPlan[];
+  setWorkoutPlans: (wp: iWorkoutPlan[]) => void;
+  activeWP: iWorkoutPlan;
+  setActiveWP: (activeWP: iWorkoutPlan) => void;
 }
 const initWorkout = {
   name: "",
@@ -35,6 +48,13 @@ const initWorkout = {
   id: "",
 };
 const useWorkoutPlanStore = create<WorkoutPlanState>()((set) => ({
+  activeWP: {
+    id: "",
+    name: "",
+    is_active: false,
+    workouts: [],
+  },
+  workoutPlans: [],
   viewDetailsWP: {
     id: "",
     name: "",
@@ -47,6 +67,8 @@ const useWorkoutPlanStore = create<WorkoutPlanState>()((set) => ({
     id: "",
     day: "",
   },
+  setWorkoutPlans: (wp: iWorkoutPlan[]) => set({ workoutPlans: wp }),
+  setActiveWP: (activeWP: iWorkoutPlan) => set({ activeWP: activeWP }),
   clearWorkoutPlan: () => set({}),
   setViewDetailsWP: (wp: any) =>
     set((state) => ({

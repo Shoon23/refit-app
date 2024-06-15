@@ -37,6 +37,7 @@ import { informationCircleSharp } from "ionicons/icons";
 import workoutInfo from "../data/wokoutInfo.json";
 import InfoTab from "../components/InfoTab";
 import { CapacitorHttp } from "@capacitor/core";
+import { motion } from "framer-motion";
 const Preference = () => {
   const [selectedMuscles, setSelectedMuscles] = useState<Array<string>>([]);
   const [selectedEquipments, setSelectedEquipments] = useState<Array<string>>(
@@ -261,129 +262,136 @@ const Preference = () => {
       </IonHeader>
 
       <IonContent>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle
-              style={{
-                fontWeight: "bolder",
-                fontFamily: "Quicksand, sans-serif",
-                fontSize: "1.5rem",
-                padding: "12  px",
-              }}
-            >
-              We want to know about you?
-            </IonCardTitle>
-            <div
-              style={{
-                marginTop: "10px",
-                fontSize: "1.1rem",
-              }}
-            >
-              Select at least one of each categories
-            </div>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonGrid>
-              <IonRow>
-                <IonLabel
-                  style={{
-                    fontWeight: "bolder",
-                    fontSize: "1.3rem",
-                  }}
-                >
-                  Levels
-                </IonLabel>
-              </IonRow>
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <IonCard>
+            <IonCardHeader>
+              <IonCardTitle
+                style={{
+                  fontWeight: "bolder",
+                  fontFamily: "Quicksand, sans-serif",
+                  fontSize: "1.5rem",
+                  padding: "12  px",
+                }}
+              >
+                We want to know about you?
+              </IonCardTitle>
+              <div
+                style={{
+                  marginTop: "10px",
+                  fontSize: "1.1rem",
+                }}
+              >
+                Select at least one of each categories
+              </div>
+            </IonCardHeader>
+            <IonCardContent>
+              <IonGrid>
+                <IonRow>
+                  <IonLabel
+                    style={{
+                      fontWeight: "bolder",
+                      fontSize: "1.3rem",
+                    }}
+                  >
+                    Levels
+                  </IonLabel>
+                </IonRow>
 
-              {levelTypes.map((option, index) => (
-                <IonChip
-                  key={index}
-                  onClick={() => handleSelectLevel(option)}
-                  color={selectedLevels.includes(option) ? "primary" : ""}
-                  disabled={
-                    !selectedLevels.includes(option) &&
-                    selectedLevels.length !== 0
-                  }
-                >
-                  {selectedLevels.includes(option) && (
-                    <IonIcon icon={checkmark}></IonIcon>
-                  )}
-                  <IonLabel>{capitalizeFirstLetter(option)}</IonLabel>
-                </IonChip>
-              ))}
-            </IonGrid>
+                {levelTypes.map((option, index) => (
+                  <IonChip
+                    key={index}
+                    onClick={() => handleSelectLevel(option)}
+                    color={selectedLevels.includes(option) ? "primary" : ""}
+                    disabled={
+                      !selectedLevels.includes(option) &&
+                      selectedLevels.length !== 0
+                    }
+                  >
+                    {selectedLevels.includes(option) && (
+                      <IonIcon icon={checkmark}></IonIcon>
+                    )}
+                    <IonLabel>{capitalizeFirstLetter(option)}</IonLabel>
+                  </IonChip>
+                ))}
+              </IonGrid>
 
-            <IonGrid>
-              <IonRow>
-                <IonLabel
-                  style={{
-                    fontWeight: "bolder",
-                    fontSize: "1.3rem",
-                  }}
-                >
-                  Muscles
-                </IonLabel>
-              </IonRow>
+              <IonGrid>
+                <IonRow>
+                  <IonLabel
+                    style={{
+                      fontWeight: "bolder",
+                      fontSize: "1.3rem",
+                    }}
+                  >
+                    Muscles
+                  </IonLabel>
+                </IonRow>
 
-              {muscleGroups.map((option, index) => (
-                <IonChip
-                  key={index}
-                  onClick={() => handleSelectMuscles(option)}
-                  color={selectedMuscles.includes(option) ? "primary" : ""}
-                  disabled={selectedLevels.length === 0}
-                >
-                  {selectedMuscles.includes(option) && (
-                    <IonIcon icon={checkmark}></IonIcon>
-                  )}
-                  <IonLabel>{capitalizeFirstLetter(option)}</IonLabel>
-                </IonChip>
-              ))}
-            </IonGrid>
-            <IonGrid>
-              <IonRow>
-                <IonLabel
-                  style={{
-                    fontWeight: "bolder",
-                    fontSize: "1.3rem",
-                  }}
-                >
-                  Equipment
-                </IonLabel>
-              </IonRow>
+                {muscleGroups.map((option, index) => (
+                  <IonChip
+                    key={index}
+                    onClick={() => handleSelectMuscles(option)}
+                    color={selectedMuscles.includes(option) ? "primary" : ""}
+                    disabled={selectedLevels.length === 0}
+                  >
+                    {selectedMuscles.includes(option) && (
+                      <IonIcon icon={checkmark}></IonIcon>
+                    )}
+                    <IonLabel>{capitalizeFirstLetter(option)}</IonLabel>
+                  </IonChip>
+                ))}
+              </IonGrid>
+              <IonGrid>
+                <IonRow>
+                  <IonLabel
+                    style={{
+                      fontWeight: "bolder",
+                      fontSize: "1.3rem",
+                    }}
+                  >
+                    Equipment
+                  </IonLabel>
+                </IonRow>
 
-              {equipmentTypes.map((option, index) => (
-                <IonChip
-                  key={index}
-                  onClick={() => handleSelectEquipments(option)}
-                  color={selectedEquipments.includes(option) ? "primary" : ""}
-                  disabled={
-                    selectedLevels.length === 0 || selectedMuscles.length === 0
-                  }
-                >
-                  {selectedEquipments.includes(option) && (
-                    <IonIcon icon={checkmark}></IonIcon>
-                  )}
-                  <IonLabel>{capitalizeFirstLetter(option)}</IonLabel>
-                </IonChip>
-              ))}
-            </IonGrid>
+                {equipmentTypes.map((option, index) => (
+                  <IonChip
+                    key={index}
+                    onClick={() => handleSelectEquipments(option)}
+                    color={selectedEquipments.includes(option) ? "primary" : ""}
+                    disabled={
+                      selectedLevels.length === 0 ||
+                      selectedMuscles.length === 0
+                    }
+                  >
+                    {selectedEquipments.includes(option) && (
+                      <IonIcon icon={checkmark}></IonIcon>
+                    )}
+                    <IonLabel>{capitalizeFirstLetter(option)}</IonLabel>
+                  </IonChip>
+                ))}
+              </IonGrid>
 
-            <IonButton
-              disabled={
-                selectedEquipments.length === 0 ||
-                selectedMuscles.length === 0 ||
-                selectedLevels.length === 0
-              }
-              style={{
-                marginTop: "10px",
-              }}
-              expand="block"
-              onClick={handleSubmit}
-            >
-              Submit
-            </IonButton>
-          </IonCardContent>
-        </IonCard>
+              <IonButton
+                disabled={
+                  selectedEquipments.length === 0 ||
+                  selectedMuscles.length === 0 ||
+                  selectedLevels.length === 0
+                }
+                style={{
+                  marginTop: "10px",
+                }}
+                expand="block"
+                onClick={handleSubmit}
+              >
+                Submit
+              </IonButton>
+            </IonCardContent>
+          </IonCard>
+        </motion.div>
       </IonContent>
       <IonAlert
         isOpen={isError}

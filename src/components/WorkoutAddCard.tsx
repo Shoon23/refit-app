@@ -12,6 +12,7 @@ import { WorkoutType } from "../types/workout-type";
 import ModalDetails from "./ModalDetails";
 import { apiUrlLocal } from "../env";
 import useSelectWOStore from "../store/workoutPlanStore";
+import { motion } from "framer-motion";
 interface WorkoutCardProps {
   workout: WorkoutType;
   style: {
@@ -29,7 +30,11 @@ const WorkoutAddCard: React.FC<WorkoutCardProps> = ({
   const router = useIonRouter();
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ ease: "easeOut", duration: 0.5 }}
+    >
       <IonCard onClick={() => setIsOpen(true)} style={style} button={true}>
         <IonCardContent
           style={{
@@ -104,7 +109,7 @@ const WorkoutAddCard: React.FC<WorkoutCardProps> = ({
         </IonCardContent>
       </IonCard>
       <ModalDetails isOpen={isOpen} setIsOpen={setIsOpen} workout={workout} />
-    </>
+    </motion.div>
   );
 };
 

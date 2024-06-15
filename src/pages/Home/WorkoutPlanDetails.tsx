@@ -31,6 +31,7 @@ import useUserStore from "../../store/userStore";
 import { createOutline } from "ionicons/icons";
 import useHomeStore from "../../store/homeStore";
 import useAxios from "../../hooks/useAxios";
+import { motion } from "framer-motion";
 
 interface WorkoutPlanDetailsProps {}
 
@@ -54,8 +55,15 @@ const WorkoutPlanDetails: React.FC<WorkoutPlanDetailsProps> = () => {
     viewDetailsWP,
     clearViewDetaulsWP,
     setViewDetailsWP,
+    activeWP,
+    workoutPlans,
+    setActiveWP,
+    setWorkoutPlans,
   } = useWorkoutPlanStore();
-  const { access_token, setUpdateActiveWP, workout_plan } = useUserStore();
+  const { setUpdateActiveWP, workout_plan } = useUserStore((state) => ({
+    setUpdateActiveWP: state.setUpdateActiveWP,
+    workout_plan: state.workout_plan,
+  }));
   const { setIsLoadedCurrWO } = useHomeStore();
   const getWorkoutPlanIds = async () => {
     try {
@@ -105,31 +113,33 @@ const WorkoutPlanDetails: React.FC<WorkoutPlanDetailsProps> = () => {
 
   const handleDeleteWP = async () => {
     try {
-      const response = await fetch.delete(`/workout_plan/${viewDetailsWP.id}`);
-      if (viewDetailsWP.is_active) {
+      await fetch.delete(`/workout_plan/${viewDetailsWP.id}`);
+      if (viewDetailsWP.id === workout_plan.id) {
         setUpdateActiveWP({
           id: "",
           name: "",
           is_active: false,
           workouts: [],
         });
+        setIsLoadedCurrWO(false);
       }
+
       router.push("/main/workout-plan", "back");
     } catch (error) {
       setIsError(true);
-
       console.log(error);
     }
   };
 
   const handleUsePlan = async () => {
     try {
-      const response = await fetch.put(`/workout_plan/activate`, {
+      await fetch.put(`/workout_plan/activate`, {
         new_wp_id: viewDetailsWP?.id,
         old_wp_id: workout_plan?.id,
       });
 
-      setUpdateActiveWP(viewDetailsWP);
+      setIsLoadedCurrWO(false);
+      setUpdateActiveWP({ ...viewDetailsWP, is_active: true });
     } catch (error) {
       setIsError(true);
       console.log(error);
@@ -209,78 +219,95 @@ const WorkoutPlanDetails: React.FC<WorkoutPlanDetailsProps> = () => {
         <div
           style={{ display: "flex", flexDirection: "column", height: "100%" }}
         >
-          <IonCard>
-            <IonSegment
-              scrollable={true}
-              value={currView}
-              onIonChange={(e) => {
-                const convert_day = exerciseDates[e.target.value as string];
-                const selectedDay = workoutDayIds.filter(
-                  (id: any) => id.day === convert_day
-                )[0];
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <IonCard>
+              <IonSegment
+                scrollable={true}
+                value={currView}
+                onIonChange={(e) => {
+                  const convert_day = exerciseDates[e.target.value as string];
+                  const selectedDay = workoutDayIds.filter(
+                    (id: any) => id.day === convert_day
+                  )[0];
 
-                setWorkoutDaySelected(selectedDay);
-                fetch_workout_day_exercises(selectedDay.id);
-                setCurrView(e.target.value as string);
-              }}
-            >
-              {Object.keys(exerciseDates).map((date) => (
-                <IonSegmentButton key={date} value={date}>
-                  <IonLabel>{date}</IonLabel>
-                </IonSegmentButton>
-              ))}
-            </IonSegment>
-          </IonCard>
-          <IonCard
+                  setWorkoutDaySelected(selectedDay);
+                  fetch_workout_day_exercises(selectedDay.id);
+                  setCurrView(e.target.value as string);
+                }}
+              >
+                {Object.keys(exerciseDates).map((date) => (
+                  <IonSegmentButton key={date} value={date}>
+                    <IonLabel>{date}</IonLabel>
+                  </IonSegmentButton>
+                ))}
+              </IonSegment>
+            </IonCard>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             style={{
               flex: 1,
-              marginBottom: "100px",
-              display: "flex",
-              flexDirection: "column",
             }}
           >
-            <IonList style={{ height: "100%", overflowY: "auto" }}>
-              {isLoading ? (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: "100%",
-                  }}
-                >
-                  <IonItem>
-                    <IonSpinner name="bubbles"></IonSpinner>
-                  </IonItem>
-                </div>
-              ) : selectedExercise.length === 0 ? (
-                <div
-                  className=""
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    height: "100%",
-                  }}
-                >
-                  <IonLabel>Rest Day</IonLabel>
-                </div>
-              ) : (
-                selectedExercise.map((e: any) => (
-                  <WorkoutItem key={e.id} data={e} />
-                ))
-              )}
-            </IonList>
-            <IonButton
-              disabled={viewDetailsWP?.id === workout_plan?.id}
-              color={"secondary"}
-              onClick={handleUsePlan}
+            <IonCard
+              style={{
+                height: "90%",
+
+                marginBottom: "100px",
+                display: "flex",
+                flexDirection: "column",
+              }}
             >
-              {viewDetailsWP?.id === workout_plan?.id
-                ? "Already In Use"
-                : "Use this Plan"}
-            </IonButton>
-          </IonCard>
+              <IonList style={{ height: "100%", overflowY: "auto" }}>
+                {isLoading ? (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "100%",
+                    }}
+                  >
+                    <IonItem>
+                      <IonSpinner name="bubbles"></IonSpinner>
+                    </IonItem>
+                  </div>
+                ) : selectedExercise.length === 0 ? (
+                  <div
+                    className=""
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      height: "100%",
+                    }}
+                  >
+                    <IonLabel>Rest Day</IonLabel>
+                  </div>
+                ) : (
+                  selectedExercise.map((e: any) => (
+                    <WorkoutItem key={e.id} data={e} />
+                  ))
+                )}
+              </IonList>
+              <IonButton
+                disabled={viewDetailsWP?.id === workout_plan?.id}
+                color={"secondary"}
+                onClick={handleUsePlan}
+              >
+                {viewDetailsWP?.id === workout_plan?.id
+                  ? "Already In Use"
+                  : "Use this Plan"}
+              </IonButton>
+            </IonCard>
+          </motion.div>
 
           <IonFab
             onClick={() => router.push("/main/workout-plan/add")}

@@ -10,6 +10,7 @@ import React, { useState, useEffect } from "react";
 import bgImg from "../assets/sleeping_sulek.jpeg";
 import { WorkoutType } from "../types/workout-type";
 import ken2 from "../assets/ken_2.jpeg";
+import { motion } from "framer-motion";
 interface iCurrWorkout {
   details: WorkoutType;
   id: string;
@@ -82,7 +83,7 @@ const RestTimeCard: React.FC<RestTimeCardProps> = ({
 
   return (
     <>
-      <div
+      <motion.div
         style={{
           display: "flex",
           flexDirection: "column",
@@ -91,6 +92,9 @@ const RestTimeCard: React.FC<RestTimeCardProps> = ({
           // height: "85%",
           width: "100%",
         }}
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       >
         <IonCard style={{ marginBottom: 0, alignSelf: "start", width: "95%" }}>
           <IonCardHeader>
@@ -186,28 +190,34 @@ const RestTimeCard: React.FC<RestTimeCardProps> = ({
             </div>
           </IonCard>
         </div>
-      </div>
+      </motion.div>
       <IonCard style={{ margin: "0px 10px", alignSelf: "start", width: "95%" }}>
         {nextWorkout?.id && (
-          <IonCardHeader>
-            <IonCardTitle
-              style={{
-                fontSize: "1.6rem",
-                fontWeight: "bolder",
-              }}
-              color={"medium"}
-            >
-              Next Exercise:
-            </IonCardTitle>
-            <IonCardTitle
-              style={{
-                fontSize: "1.4rem",
-              }}
-              color={"medium"}
-            >
-              {nextWorkout?.details?.name}
-            </IonCardTitle>
-          </IonCardHeader>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <IonCardHeader>
+              <IonCardTitle
+                style={{
+                  fontSize: "1.6rem",
+                  fontWeight: "bolder",
+                }}
+                color={"medium"}
+              >
+                Next Exercise:
+              </IonCardTitle>
+              <IonCardTitle
+                style={{
+                  fontSize: "1.4rem",
+                }}
+                color={"medium"}
+              >
+                {nextWorkout?.details?.name}
+              </IonCardTitle>
+            </IonCardHeader>
+          </motion.div>
         )}
       </IonCard>
     </>

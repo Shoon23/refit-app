@@ -16,6 +16,7 @@ import { apiUrlLocal } from "../env";
 import ModalDetails from "./ModalDetails";
 import { WorkoutType } from "../types/workout-type";
 import WorkoutItemModal from "./WorkoutItemModal";
+import { motion } from "framer-motion";
 
 interface WorkoutItemProps {
   data: {
@@ -32,7 +33,11 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0, x: -50 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <IonCard
         onClick={() => setIsOpen(true)}
         button={true}
@@ -111,7 +116,7 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({
         setIsOpen={setIsOpen}
         data={{ details: workout, reps, sets, id }}
       />
-    </>
+    </motion.div>
   );
 };
 

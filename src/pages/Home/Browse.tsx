@@ -80,11 +80,11 @@ const Browse: React.FC<BrowseProps> = () => {
 
     setWindowName("search");
     setIsLoading(true);
-    if (!searchResults.hasData && status.connected) {
+    if (status.connected) {
       setCurrPage(1);
       getResult(searchKey, muscleFilters, equipmentFilters);
       setIsConnected(true);
-    } else if (searchResults.hasData && !status.connected) {
+    } else if (!status.connected) {
       if (
         (!equipmentFilters || equipmentFilters.length === 0) &&
         (!muscleFilters || muscleFilters.length === 0) &&
@@ -167,26 +167,31 @@ const Browse: React.FC<BrowseProps> = () => {
 
     topRef.current?.scrollIntoView({ behavior: "smooth" });
     setWindowName(e.detail.value as any);
-
+    setIsLoading(true);
     if (e.detail.value === "recommended") {
       if (!recommendations.hasData && status.connected) {
-        setIsLoading(true);
         setIsConnected(true);
         getRecommendations();
-      } else if (recommendations.hasData && !status.connected) {
+        setIsLoading(false);
+      } else if (recommendations.hasData) {
         setIsConnected(true);
+        setIsLoading(false);
       } else if (!recommendations.hasData && !status.connected) {
         setIsConnected(false);
+        setIsLoading(false);
       }
     } else {
       if (!searchResults.hasData && status.connected) {
         setIsConnected(true);
         getResult(searchKey, muscleFilters, equipmentFilters, true);
-      } else if (searchResults.hasData && !status.connected) {
+        setIsLoading(false);
+      } else if (searchResults.hasData) {
         setResults(searchResults);
         setIsConnected(true);
+        setIsLoading(false);
       } else if (!searchResults.hasData && !status.connected) {
         setIsConnected(false);
+        setIsLoading(false);
       }
     }
   };

@@ -24,6 +24,7 @@ import { apiUrlLocal } from "../env";
 import { CapacitorHttp, HttpResponse, ISODateString } from "@capacitor/core";
 import { WorkoutType } from "../types/workout-type";
 import "../components/sessionCard.css";
+import { motion } from "framer-motion";
 
 interface iCurrWorkout {
   details: WorkoutType;
@@ -84,120 +85,125 @@ const SessionCard: React.FC<ModalDetailsProps> = ({
   return (
     <>
       {isViewMore && <IonBackdrop visible={true}></IonBackdrop>}
-
-      <IonCard>
-        <div
-          style={{
-            position: "relative",
-            width: "100%",
-            paddingBottom: "67%",
-          }}
-        >
-          <img
-            alt={workout.details.name}
-            src={apiUrlLocal + "/" + workoutDetail?.images[currImg]}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-            }}
-          />
-        </div>
-
-        <IonCardHeader>
-          <IonCardTitle
-            style={{
-              fontSize: "1.5rem",
-              marginBottom: 4,
-            }}
-            //   color={"light"}
-          >
-            {workoutDetail.name}
-          </IonCardTitle>
-          <IonButton onClick={handlePlayPpause}>
-            {isPlaying ? "Pause" : "Play"}
-          </IonButton>
-          <IonButton
-            onClick={() => {
-              setIsViewMore((prev) => !prev);
-              setIsPlaying(false);
-            }}
-          >
-            Show Intruction
-          </IonButton>
-        </IonCardHeader>
-
-        <IonCardContent>
-          <IonCardTitle
-            style={{
-              fontSize: "1.5rem",
-              margin: "0px 10px",
-              display: "flex",
-              justifyContent: "space-between",
-              marginBottom: 3,
-            }}
-          >
-            <span> Set Progress</span>{" "}
-            <span>
-              {progressSet} / {workout.sets}
-            </span>
-          </IonCardTitle>
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <IonCard>
           <div
             style={{
-              margin: "10px 0px",
-              display: "flex",
-              flexDirection: "column",
+              position: "relative",
+              width: "100%",
+              paddingBottom: "67%",
             }}
           >
+            <img
+              alt={workout.details.name}
+              src={apiUrlLocal + "/" + workoutDetail?.images[currImg]}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+            />
+          </div>
+
+          <IonCardHeader>
+            <IonCardTitle
+              style={{
+                fontSize: "1.5rem",
+                marginBottom: 4,
+              }}
+              //   color={"light"}
+            >
+              {workoutDetail.name}
+            </IonCardTitle>
+            <IonButton onClick={handlePlayPpause}>
+              {isPlaying ? "Pause" : "Play"}
+            </IonButton>
+            <IonButton
+              onClick={() => {
+                setIsViewMore((prev) => !prev);
+                setIsPlaying(false);
+              }}
+            >
+              Show Intruction
+            </IonButton>
+          </IonCardHeader>
+
+          <IonCardContent>
             <IonCardTitle
               style={{
                 fontSize: "1.5rem",
                 margin: "0px 10px",
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: 3,
               }}
             >
-              Repetitions
+              <span> Set Progress</span>{" "}
+              <span>
+                {progressSet} / {workout.sets}
+              </span>
             </IonCardTitle>
-            <IonCardTitle
+            <div
               style={{
-                fontSize: "5rem",
-                alignSelf: "center",
-                fontWeight: "bolder",
+                margin: "10px 0px",
+                display: "flex",
+                flexDirection: "column",
               }}
             >
-              {workout.reps}
-            </IonCardTitle>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              width: "100%",
-              gap: 8,
-            }}
-          >
-            <IonButton
-              color={"light"}
+              <IonCardTitle
+                style={{
+                  fontSize: "1.5rem",
+                  margin: "0px 10px",
+                }}
+              >
+                Repetitions
+              </IonCardTitle>
+              <IonCardTitle
+                style={{
+                  fontSize: "5rem",
+                  alignSelf: "center",
+                  fontWeight: "bolder",
+                }}
+              >
+                {workout.reps}
+              </IonCardTitle>
+            </div>
+            <div
               style={{
-                width: "50%",
+                display: "flex",
+                width: "100%",
+                gap: 8,
               }}
-              onClick={handleSkip}
             >
-              Skip Exercise
-            </IonButton>
-            <IonButton
-              style={{
-                width: "50%",
-                color: "white",
-              }}
-              color={"success"}
-              onClick={handleNextSet}
-            >
-              Next Set
-            </IonButton>
-          </div>
-        </IonCardContent>
-      </IonCard>
+              <IonButton
+                color={"light"}
+                style={{
+                  width: "50%",
+                }}
+                onClick={handleSkip}
+              >
+                Skip Exercise
+              </IonButton>
+              <IonButton
+                style={{
+                  width: "50%",
+                  color: "white",
+                }}
+                color={"success"}
+                onClick={handleNextSet}
+              >
+                Next Set
+              </IonButton>
+            </div>
+          </IonCardContent>
+        </IonCard>
+      </motion.div>
 
       {isViewMore && (
         <div id="box">

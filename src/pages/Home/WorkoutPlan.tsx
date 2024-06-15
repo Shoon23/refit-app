@@ -42,24 +42,32 @@ import ken1 from "../../assets/ken_1.jpeg";
 import ken2 from "../../assets/ken_2.jpeg";
 import { Network } from "@capacitor/network";
 import useAxios from "../../hooks/useAxios";
+import { motion } from "framer-motion";
 const WorkoutPlan = () => {
   const router = useIonRouter();
   const fetch = useAxios();
   const [isLoading, setIsLoading] = useState(true);
-  const [activeWP, seActiveWP] = useState<iWorkoutPlan>({
-    id: "",
-    name: "",
-    is_active: false,
-    workouts: [],
-  });
-  const [workoutPlans, setWorkoutPlans] = useState<iWorkoutPlan[]>([]);
+  // const [activeWP, seActiveWP] = useState<iWorkoutPlan>({
+  //   id: "",
+  //   name: "",
+  //   is_active: false,
+  //   workouts: [],
+  // });
+  // const [workoutPlans, setWorkoutPlans] = useState<iWorkoutPlan[]>([]);
   const [isOpenAddModal, setIsOpenAddModal] = useState(false);
   const { workout_plan, access_token, id } = useUserStore();
   const [isTouched, setIsTouched] = useState(false);
   const [isValid, setIsValid] = useState<boolean>();
   const [name, setName] = useState("");
   const [isConnected, setIsConnected] = useState(true);
-  const { clearSelectedWO, setViewDetailsWP } = useWorkoutPlanStore();
+  const {
+    clearSelectedWO,
+    setViewDetailsWP,
+    setActiveWP,
+    setWorkoutPlans,
+    workoutPlans,
+    activeWP,
+  } = useWorkoutPlanStore();
   const [isError, setIsError] = useState(false);
   useEffect(() => {
     clearSelectedWO();
@@ -78,7 +86,7 @@ const WorkoutPlan = () => {
       const response = await fetch.get(`/workout_plans/${id}`);
       const acttiveWP = response.data.filter((wp: any) => wp.is_active);
       const wp = response.data.filter((wp: any) => !wp.is_active);
-      seActiveWP(acttiveWP[0]);
+      setActiveWP(acttiveWP[0]);
       setWorkoutPlans(wp);
       setIsLoading(false);
     } catch (error) {
@@ -107,7 +115,8 @@ const WorkoutPlan = () => {
       });
 
       setIsOpenAddModal(false);
-      setWorkoutPlans((prev) => [response.data.workout_plan, ...prev]);
+      setWorkoutPlans([response.data.workout_plan, ...workoutPlans]);
+      // setWorkoutPlans((prev) => [response.data.workout_plan, ...prev]);
     } catch (error) {
       setIsError(true);
       console.log(error);
@@ -162,7 +171,7 @@ const WorkoutPlan = () => {
             <IonSpinner name="bubbles"></IonSpinner>
           </div>
         ) : !isConnected ? (
-          <div
+          <motion.div
             style={{
               display: "flex",
               height: "90%",
@@ -170,6 +179,9 @@ const WorkoutPlan = () => {
               justifyContent: "center",
               flexDirection: "column",
             }}
+            initial={{ opacity: 0, x: -100, rotate: -10 }}
+            animate={{ opacity: 1, x: 0, rotate: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <IonLabel
               style={{
@@ -182,7 +194,7 @@ const WorkoutPlan = () => {
             <IonButton color={"dark"} onClick={handleRetry}>
               Retry
             </IonButton>
-          </div>
+          </motion.div>
         ) : (
           <>
             {workoutPlans.length !== 0 || activeWP?.name ? (
@@ -197,17 +209,24 @@ const WorkoutPlan = () => {
                     >
                       Active Workout Plan
                     </IonCardSubtitle>
-                    <IonCard
-                      button={true}
-                      onClick={() => {
-                        setViewDetailsWP(activeWP as any);
-                        router.push("/main/workout-plan/details");
-                      }}
+
+                    <motion.div
+                      initial={{ opacity: 0, x: -100, rotate: -10 }}
+                      animate={{ opacity: 1, x: 0, rotate: 0 }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
                     >
-                      <IonCardHeader>
-                        <IonCardTitle>{activeWP?.name}</IonCardTitle>
-                      </IonCardHeader>
-                    </IonCard>
+                      <IonCard
+                        button={true}
+                        onClick={() => {
+                          setViewDetailsWP(activeWP as any);
+                          router.push("/main/workout-plan/details");
+                        }}
+                      >
+                        <IonCardHeader>
+                          <IonCardTitle>{activeWP?.name}</IonCardTitle>
+                        </IonCardHeader>
+                      </IonCard>
+                    </motion.div>
                   </>
                 )}
 
@@ -222,7 +241,12 @@ const WorkoutPlan = () => {
                       Workout Plans
                     </IonCardSubtitle>
                     {workoutPlans?.map((wp) => (
-                      <div key={wp.id}>
+                      <motion.div
+                        key={wp.id}
+                        initial={{ opacity: 0, x: -100, rotate: -10 }}
+                        animate={{ opacity: 1, x: 0, rotate: 0 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                      >
                         <IonCard
                           button={true}
                           onClick={() => {
@@ -234,7 +258,7 @@ const WorkoutPlan = () => {
                             <IonCardTitle>{wp.name}</IonCardTitle>
                           </IonCardHeader>
                         </IonCard>
-                      </div>
+                      </motion.div>
                     ))}
                   </>
                 )}

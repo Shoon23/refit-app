@@ -19,6 +19,7 @@ import SessionCard from "../components/SessionCard";
 import RestTimeCard from "../components/RestTimeCard";
 import bgImg from "../assets/sleeping_sulek.jpeg";
 import waveBg from "../assets/wave_2.svg";
+import { motion } from "framer-motion";
 const WorkoutSessionStart = () => {
   const { currentWO, restTimes } = useHomeStore();
   const router = useIonRouter();
@@ -68,7 +69,7 @@ const WorkoutSessionStart = () => {
   return (
     <IonPage>
       {!isFinished && (
-        <IonHeader translucent={true} mode="ios">
+        <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
               <IonBackButton
@@ -84,21 +85,27 @@ const WorkoutSessionStart = () => {
 
       <IonContent scrollY={true}>
         {!isFinished && (
-          <IonCard style={{ marginBottom: 0 }}>
-            <IonCardTitle
-              style={{
-                fontSize: "1.5rem",
-                margin: 10,
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <span> Exercise Progress</span>
-              <span>
-                {currExercise + 1} / {currentWO?.exercises.length}
-              </span>
-            </IonCardTitle>
-          </IonCard>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <IonCard style={{ marginBottom: 0 }}>
+              <IonCardTitle
+                style={{
+                  fontSize: "1.5rem",
+                  margin: 10,
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <span> Exercise Progress</span>
+                <span>
+                  {currExercise + 1} / {currentWO?.exercises.length}
+                </span>
+              </IonCardTitle>
+            </IonCard>
+          </motion.div>
         )}
 
         {!isFinished ? (
@@ -147,31 +154,37 @@ const WorkoutSessionStart = () => {
               justifyContent: "center",
             }}
           >
-            <IonCardHeader>
-              <IonCardTitle
-                style={{
-                  fontSize: "3rem",
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  color: "#ff9900", // Orange color (adjust as needed)
-                  margin: "10px", // Add spacing around the text (optional)
-                }}
-              >
-                Great session!
-              </IonCardTitle>
-              <IonCardSubtitle
-                onClick={() => {
-                  router.push("/main", "back", "replace");
-                }}
-                color={"primary"}
-                style={{
-                  fontSize: "1.5rem",
-                  textAlign: "center",
-                }}
-              >
-                Go Back
-              </IonCardSubtitle>
-            </IonCardHeader>
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <IonCardHeader>
+                <IonCardTitle
+                  style={{
+                    fontSize: "3rem",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    color: "#ff9900",
+                    margin: "10px",
+                  }}
+                >
+                  Great session!
+                </IonCardTitle>
+                <IonCardSubtitle
+                  onClick={() => {
+                    location.href = "/main/home";
+                  }}
+                  color={"primary"}
+                  style={{
+                    fontSize: "1.5rem",
+                    textAlign: "center",
+                  }}
+                >
+                  Go Back
+                </IonCardSubtitle>
+              </IonCardHeader>
+            </motion.div>
           </div>
         )}
       </IonContent>

@@ -22,6 +22,7 @@ import useHomeStore from "../../store/homeStore";
 import { capitalizeFirstLetter } from "../../utils/stringUtils";
 import bgImg from "../../assets/backgrounds/4.jpeg";
 import useAxios from "../../hooks/useAxios";
+import { motion } from "framer-motion";
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = ({}) => {
@@ -37,8 +38,7 @@ const Home: React.FC<HomeProps> = ({}) => {
   } = useHomeStore();
   const [isLoadingReccom, setIsLoadingReccom] = useState(true);
   const [isLoadingCurrWO, setIsLoadingCurrWO] = useState(true);
-  const { workout_plan, preferences, first_name, access_token } =
-    useUserStore();
+  const { workout_plan, preferences, first_name } = useUserStore();
 
   const fetch = useAxios();
   useEffect(() => {
@@ -56,6 +56,7 @@ const Home: React.FC<HomeProps> = ({}) => {
         if (!workout_plan?.id) {
           setCurrentWO(null);
           setIsLoadingCurrWO(false);
+
           return;
         }
 
@@ -70,7 +71,9 @@ const Home: React.FC<HomeProps> = ({}) => {
         setCurrentWO(response.data);
         setIsLoadingCurrWO(false);
         setIsLoadedCurrWO(true);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
     // main
     if (!isLoadedRecommended) {
@@ -106,18 +109,23 @@ const Home: React.FC<HomeProps> = ({}) => {
             zIndex: -1,
           }}
         ></div>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle
-              style={{
-                fontWeight: "bolder",
-              }}
-            >
-              Hello {capitalizeFirstLetter(first_name)}!
-            </IonCardTitle>
-          </IonCardHeader>
-        </IonCard>
-
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ease: "easeOut", duration: 0.5 }}
+        >
+          <IonCard>
+            <IonCardHeader>
+              <IonCardTitle
+                style={{
+                  fontWeight: "bolder",
+                }}
+              >
+                Hello {capitalizeFirstLetter(first_name)}!
+              </IonCardTitle>
+            </IonCardHeader>
+          </IonCard>
+        </motion.div>
         <IonCard>
           <IonCardHeader>
             <IonCardSubtitle>Workout Session Today</IonCardSubtitle>
@@ -126,9 +134,13 @@ const Home: React.FC<HomeProps> = ({}) => {
         {isLoadingCurrWO && !isLoadedCurrWO ? (
           <WorkoutStatusSkeleton />
         ) : (
-          <>
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ ease: "easeOut", duration: 0.5 }}
+          >
             <WorkoutStatus currWorkout={currentWO} />
-          </>
+          </motion.div>
         )}
         <IonCard>
           <IonCardHeader>

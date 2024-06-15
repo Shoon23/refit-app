@@ -29,6 +29,7 @@ import bgImg from "../assets/backgrounds/4.jpeg";
 import useHomeStore from "../store/homeStore";
 import { swapArrayValue } from "../utils/arrayUtils";
 import useUserStore from "../store/userStore";
+import { motion } from "framer-motion";
 const WorkoutSession = () => {
   const [isEdit, setIsEdit] = useState({
     rpe: false,
@@ -96,11 +97,11 @@ const WorkoutSession = () => {
   };
   return (
     <IonPage>
-      <IonHeader translucent={true} mode="ios">
+      <IonHeader>
         <IonToolbar>
           <IonButtons
             onClick={() => {
-              router.goBack();
+              location.href = "/main/home";
             }}
             slot="start"
           >
@@ -126,177 +127,183 @@ const WorkoutSession = () => {
             zIndex: -1,
           }}
         ></div>
-        <IonCard>
-          {!isLoading ? (
-            <>
+        <motion.div
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+        >
+          <IonCard>
+            {!isLoading ? (
+              <>
+                <div
+                  style={{
+                    margin: "10px",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <IonCardTitle
+                    style={{
+                      fontWeight: "bolder",
+                      fontSize: "1.8rem",
+                    }}
+                  >
+                    {workout_plan.name} - {currentWO?.day}
+                  </IonCardTitle>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    margin: "10px",
+                    gap: 5,
+                    fontSize: "1.1rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    {!isEdit.rpe ? (
+                      <>
+                        <IonLabel>Rest Per Exercises:</IonLabel>
+                        <IonChip
+                          onClick={() => handleShowEdit("rpe")}
+                          outline={true}
+                        >
+                          {rpe} secs
+                        </IonChip>
+                      </>
+                    ) : (
+                      <>
+                        <IonInput
+                          label="Rest Per Exercises"
+                          type="number"
+                          placeholder="000"
+                          name="rpe"
+                          onIonInput={handleInputChange}
+                          value={rpe}
+                        ></IonInput>
+                        <div
+                          style={{
+                            display: "flex",
+                          }}
+                        >
+                          <IonButton
+                            color={"light"}
+                            onClick={() => handleUpdate("rpe")}
+                            disabled={rpe > 600}
+                          >
+                            <IonIcon icon={checkmark}></IonIcon>
+                          </IonButton>
+                          <IonButton
+                            color={"light"}
+                            onClick={() => handleCloseEdit("rpe")}
+                          >
+                            <IonIcon icon={close}></IonIcon>
+                          </IonButton>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    {!isEdit.rps ? (
+                      <>
+                        <IonLabel>Rest Per Sets:</IonLabel>
+                        <IonChip
+                          onClick={() => handleShowEdit("rps")}
+                          outline={true}
+                        >
+                          {rps} secs
+                        </IonChip>
+                      </>
+                    ) : (
+                      <>
+                        <IonInput
+                          label="Rest Per Sets"
+                          type="number"
+                          placeholder="000"
+                          name="rps"
+                          onIonInput={handleInputChange}
+                          value={rps}
+                        ></IonInput>
+
+                        <div
+                          style={{
+                            display: "flex",
+                          }}
+                        >
+                          <IonButton
+                            color={"light"}
+                            onClick={() => handleUpdate("rps")}
+                            disabled={rps > 600}
+                          >
+                            <IonIcon icon={checkmark}></IonIcon>
+                          </IonButton>
+                          <IonButton
+                            color={"light"}
+                            onClick={() => handleCloseEdit("rps")}
+                          >
+                            <IonIcon icon={close}></IonIcon>
+                          </IonButton>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+                <IonCardContent>
+                  <IonList
+                    style={{
+                      height: "500px",
+                      overflowY: "auto",
+                    }}
+                  >
+                    {/* The reorder gesture is disabled by default, enable it to drag and drop items */}
+                    <IonReorderGroup
+                      disabled={false}
+                      onIonItemReorder={handleReorder}
+                      style={{ height: "100%", overflowY: "auto" }}
+                    >
+                      {currentWO?.exercises.map((exercise) => (
+                        <IonItem key={exercise.id}>
+                          <IonLabel>{exercise?.details.name}</IonLabel>
+                          <IonReorder slot="end"></IonReorder>
+                        </IonItem>
+                      ))}
+                    </IonReorderGroup>
+                  </IonList>
+
+                  <IonButton
+                    onClick={handleStartSession}
+                    expand="block"
+                    color={"secondary"}
+                    disabled={isEdit.rpe || isEdit.rps}
+                  >
+                    Start
+                  </IonButton>
+                </IonCardContent>
+              </>
+            ) : (
               <div
                 style={{
-                  margin: "10px",
                   display: "flex",
+                  height: "80vh",
+                  alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <IonCardTitle
-                  style={{
-                    fontWeight: "bolder",
-                    fontSize: "1.8rem",
-                  }}
-                >
-                  {workout_plan.name} - {currentWO?.day}
-                </IonCardTitle>
+                <IonSpinner name="bubbles"></IonSpinner>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "10px",
-                  gap: 5,
-                  fontSize: "1.1rem",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  {!isEdit.rpe ? (
-                    <>
-                      <IonLabel>Rest Per Exercises:</IonLabel>
-                      <IonChip
-                        onClick={() => handleShowEdit("rpe")}
-                        outline={true}
-                      >
-                        {rpe} secs
-                      </IonChip>
-                    </>
-                  ) : (
-                    <>
-                      <IonInput
-                        label="Rest Per Exercises"
-                        type="number"
-                        placeholder="000"
-                        name="rpe"
-                        onIonInput={handleInputChange}
-                        value={rpe}
-                      ></IonInput>
-                      <div
-                        style={{
-                          display: "flex",
-                        }}
-                      >
-                        <IonButton
-                          color={"light"}
-                          onClick={() => handleUpdate("rpe")}
-                          disabled={rpe > 600}
-                        >
-                          <IonIcon icon={checkmark}></IonIcon>
-                        </IonButton>
-                        <IonButton
-                          color={"light"}
-                          onClick={() => handleCloseEdit("rpe")}
-                        >
-                          <IonIcon icon={close}></IonIcon>
-                        </IonButton>
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  {!isEdit.rps ? (
-                    <>
-                      <IonLabel>Rest Per Sets:</IonLabel>
-                      <IonChip
-                        onClick={() => handleShowEdit("rps")}
-                        outline={true}
-                      >
-                        {rps} secs
-                      </IonChip>
-                    </>
-                  ) : (
-                    <>
-                      <IonInput
-                        label="Rest Per Sets"
-                        type="number"
-                        placeholder="000"
-                        name="rps"
-                        onIonInput={handleInputChange}
-                        value={rps}
-                      ></IonInput>
-
-                      <div
-                        style={{
-                          display: "flex",
-                        }}
-                      >
-                        <IonButton
-                          color={"light"}
-                          onClick={() => handleUpdate("rps")}
-                          disabled={rps > 600}
-                        >
-                          <IonIcon icon={checkmark}></IonIcon>
-                        </IonButton>
-                        <IonButton
-                          color={"light"}
-                          onClick={() => handleCloseEdit("rps")}
-                        >
-                          <IonIcon icon={close}></IonIcon>
-                        </IonButton>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </div>
-              <IonCardContent>
-                <IonList
-                  style={{
-                    height: "500px",
-                    overflowY: "auto",
-                  }}
-                >
-                  {/* The reorder gesture is disabled by default, enable it to drag and drop items */}
-                  <IonReorderGroup
-                    disabled={false}
-                    onIonItemReorder={handleReorder}
-                    style={{ height: "100%", overflowY: "auto" }}
-                  >
-                    {currentWO?.exercises.map((exercise) => (
-                      <IonItem key={exercise.id}>
-                        <IonLabel>{exercise?.details.name}</IonLabel>
-                        <IonReorder slot="end"></IonReorder>
-                      </IonItem>
-                    ))}
-                  </IonReorderGroup>
-                </IonList>
-
-                <IonButton
-                  onClick={handleStartSession}
-                  expand="block"
-                  color={"secondary"}
-                  disabled={isEdit.rpe || isEdit.rps}
-                >
-                  Start
-                </IonButton>
-              </IonCardContent>
-            </>
-          ) : (
-            <div
-              style={{
-                display: "flex",
-                height: "80vh",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <IonSpinner name="bubbles"></IonSpinner>
-            </div>
-          )}
-        </IonCard>
+            )}
+          </IonCard>
+        </motion.div>
       </IonContent>
     </IonPage>
   );
