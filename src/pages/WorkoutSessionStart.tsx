@@ -69,7 +69,7 @@ const WorkoutSessionStart = () => {
   return (
     <IonPage>
       {!isFinished && (
-        <IonHeader>
+        <IonHeader mode="ios" translucent={true}>
           <IonToolbar>
             <IonButtons slot="start">
               <IonBackButton

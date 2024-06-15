@@ -46,7 +46,7 @@ const WorkoutSession = () => {
   const router = useIonRouter();
   useEffect(() => {
     if (!currentWO?.id) {
-      router.push("/");
+      router.push("/main/home");
     } else {
       setIsLoading(false);
     }
@@ -97,16 +97,17 @@ const WorkoutSession = () => {
   };
   return (
     <IonPage>
-      <IonHeader>
+      <IonHeader mode="ios" translucent={true}>
         <IonToolbar>
-          <IonButtons
+          <IonButton
             onClick={() => {
               location.href = "/main/home";
             }}
             slot="start"
+            color={"light"}
           >
-            <IonBackButton></IonBackButton>
-          </IonButtons>
+            Back
+          </IonButton>
           <IonTitle>Workout Session</IonTitle>
         </IonToolbar>
       </IonHeader>

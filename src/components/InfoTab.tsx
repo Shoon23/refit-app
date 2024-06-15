@@ -24,7 +24,8 @@ import {
 import React, { useState, useImperativeHandle } from "react";
 import { capitalizeFirstLetter } from "../utils/stringUtils";
 import workoutInfo from "../data/wokoutInfo.json";
-
+import { info_img } from "../assets/info_img/info";
+import { apiUrlLocal } from "../env";
 interface InfoTabProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -170,18 +171,23 @@ const InfoTab: React.FC<InfoTabProps> = ({ isOpen, setIsOpen }) => {
                       </IonCardHeader>
                     </div>
                   ))
-                : info.map((info) => (
-                    <div key={info.name}>
-                      <IonCardTitle>
-                        {capitalizeFirstLetter(info.name)}:
-                      </IonCardTitle>
+                : info.map((info) => {
+                    return (
+                      <div key={info.name}>
+                        <IonCardTitle>
+                          {capitalizeFirstLetter(info.name)}:
+                        </IonCardTitle>
 
-                      <IonCardHeader>
-                        <img src={`public/info_img/${info.image}`} alt="" />
-                        <IonCardSubtitle>{info.info}</IonCardSubtitle>
-                      </IonCardHeader>
-                    </div>
-                  ))}
+                        <IonCardHeader>
+                          <img
+                            src={apiUrlLocal + "/" + info.image}
+                            alt={info.image}
+                          />
+                          <IonCardSubtitle>{info.info}</IonCardSubtitle>
+                        </IonCardHeader>
+                      </div>
+                    );
+                  })}
             </IonCard>
           )}
         </IonContent>

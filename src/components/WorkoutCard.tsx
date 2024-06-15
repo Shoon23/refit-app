@@ -22,6 +22,7 @@ interface WorkoutCardProps {
 
 const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, style = {} }) => {
   const [isOpen, setIsOpen] = useState(false);
+  console.log(apiUrlLocal + "/" + workout?.images[0]);
 
   return (
     <motion.div

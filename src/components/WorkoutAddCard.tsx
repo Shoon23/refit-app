@@ -28,7 +28,6 @@ const WorkoutAddCard: React.FC<WorkoutCardProps> = ({
   const { setWorkout } = useSelectWOStore();
 
   const router = useIonRouter();
-
   return (
     <motion.div
       initial={{ opacity: 0, y: -50 }}
