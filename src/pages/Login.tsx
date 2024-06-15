@@ -21,10 +21,11 @@ import {
 import { useIonRouter } from "@ionic/react";
 import { useState } from "react";
 import { apiUrlLocal } from "../env";
-import { CapacitorHttp } from "@capacitor/core";
+import useAxios from "../hooks/useAxios";
 import { Preferences } from "@capacitor/preferences";
 import useUserStore from "../store/userStore";
 import bgImg from "../assets/backgrounds/2.jpeg";
+import { CapacitorHttp } from "@capacitor/core";
 interface iFormData {
   email: string;
   password: string;
@@ -34,8 +35,9 @@ const Login: React.FC = () => {
   const [isError, setIsError] = useState(false);
   const [message, setMessage] = useState("");
   const router = useIonRouter();
-
+  const [isSubmit, setIsSubmit] = useState(false);
   const { setUser } = useUserStore();
+  const fetch = useAxios();
   const [isValid, setIsValid] = useState({
     email: false,
     password: false,
@@ -91,6 +93,7 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmit(true);
     try {
       const options = {
         url: apiUrlLocal + "/login",
@@ -101,16 +104,20 @@ const Login: React.FC = () => {
         data: formData,
       };
       const response = await CapacitorHttp.post(options);
-      console.log("eh");
+
       if (response.status === 400) {
         setMessage("Invalid Input");
         setIsError(true);
+        setIsSubmit(false);
+
         return;
       }
 
       if (response.status > 400) {
         setMessage(response.data.message);
         setIsError(true);
+        setIsSubmit(false);
+
         return;
       }
 
@@ -120,12 +127,16 @@ const Login: React.FC = () => {
         value: JSON.stringify(refresh_token),
       });
       setUser(user_info);
+      setIsSubmit(false);
+
       router.push("/main", "forward", "replace");
     } catch (error) {
       setMessage("Something Went Wrong Please Try Again Later");
       setIsError(true);
+      setIsSubmit(false);
     }
   };
+
   return (
     <IonPage>
       <IonHeader>
@@ -230,7 +241,7 @@ const Login: React.FC = () => {
 
                 <IonButton
                   type="submit"
-                  disabled={!isValid.email || !isValid.password}
+                  disabled={!isValid.email || !isValid.password || isSubmit}
                   color={"secondary"}
                   expand="block"
                   style={{

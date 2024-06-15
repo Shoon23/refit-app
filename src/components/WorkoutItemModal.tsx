@@ -21,13 +21,14 @@ import {
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
 import { apiUrlLocal } from "../env";
-import { CapacitorHttp, HttpResponse, ISODateString } from "@capacitor/core";
+
 import { WorkoutType } from "../types/workout-type";
 import { pencil, checkmark, create, close } from "ionicons/icons";
 import InstructionModal from "./InstructionModal";
 import useWorkoutPlanStore from "../store/workoutPlanStore";
 import useHomeStore from "../store/homeStore";
 import useUserStore from "../store/userStore";
+import useAxios from "../hooks/useAxios";
 
 interface ModalDetailsProps {
   isOpen: boolean;
@@ -64,7 +65,7 @@ const WorkoutItemModal: React.FC<ModalDetailsProps> = ({
     sets: number;
     reps: number;
   }>({ sets: 0, reps: 0 });
-
+  const fetch = useAxios();
   useEffect(() => {
     setWorkoutDetail(data.details);
     setDetails({ sets: data.sets, reps: data.reps });
@@ -92,10 +93,9 @@ const WorkoutItemModal: React.FC<ModalDetailsProps> = ({
   };
 
   const handlRemove = async () => {
-    const options = {
-      url: apiUrlLocal + `/workout_plan/schedule/remove/${data.id}`,
-    };
-    const response = await CapacitorHttp.delete(options);
+    const response = await fetch.delete(
+      `/workout_plan/schedule/remove/${data.id}`
+    );
     setRemoveSelectedWorkout(data);
     setIsOpen(false);
   };
@@ -115,19 +115,10 @@ const WorkoutItemModal: React.FC<ModalDetailsProps> = ({
 
     const value = (details as any)[key];
 
-    const options = {
-      url: apiUrlLocal + `/workout_plan/schedule/update`,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${access_token}`,
-      },
-      data: {
-        exercise_id: data.id,
-        [key]: value,
-      },
-    };
-    const response = await CapacitorHttp.put(options);
+    const response = await fetch.put(`/workout_plan/schedule/update`, {
+      exercise_id: data.id,
+      [key]: value,
+    });
 
     if (response.status === 200) {
       setDetails((prev) => ({

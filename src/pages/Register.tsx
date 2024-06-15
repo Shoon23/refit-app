@@ -22,10 +22,12 @@ import {
 
 import { useState } from "react";
 import { apiUrlLocal } from "../env";
-import { CapacitorHttp } from "@capacitor/core";
+
 import { Preferences } from "@capacitor/preferences";
 import bgImg from "../assets/backgrounds/3.jpeg";
 import useUserStore from "../store/userStore";
+import useAxios from "../hooks/useAxios";
+import { CapacitorHttp } from "@capacitor/core";
 
 interface iFormData {
   first_name: string;
@@ -41,7 +43,7 @@ const Register: React.FC = () => {
   const [message, setMessage] = useState("");
   const router = useIonRouter();
   const [errorPassword, setErrorPassword] = useState("Invalid Password");
-
+  const [isSubmit, setIsSubmit] = useState(false);
   const { setUser } = useUserStore();
   const [isValid, setIsValid] = useState({
     first_name: false,
@@ -127,6 +129,7 @@ const Register: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsSubmit(true);
     try {
       const { confirm_password, ...rest } = formData;
 
@@ -142,18 +145,24 @@ const Register: React.FC = () => {
       if (response.status === 409) {
         setMessage("Account Already Exists Please Go To Login Page");
         setIsError(true);
+        setIsSubmit(false);
+
         return;
       }
 
       if (response.status === 400) {
         setMessage("Invalid User Input");
         setIsError(true);
+        setIsSubmit(false);
+
         return;
       }
 
       if (response.status === 500) {
         setMessage("Something Went Wrong");
         setIsError(true);
+        setIsSubmit(false);
+
         return;
       }
 
@@ -163,10 +172,13 @@ const Register: React.FC = () => {
         value: JSON.stringify(refresh_token),
       });
       setUser(user_info);
+      setIsSubmit(false);
+
       router.push("/preference", "forward", "replace");
     } catch (error) {
       setMessage("Something Went Wrong Please Try Again Later");
       setIsError(true);
+      setIsSubmit(false);
     }
   };
 
@@ -337,7 +349,8 @@ const Register: React.FC = () => {
                     !isValid.confirm_password ||
                     !isValid.first_name ||
                     !isValid.last_name ||
-                    !isValid.password
+                    !isValid.password ||
+                    isSubmit
                   }
                   color={"secondary"}
                   expand="block"

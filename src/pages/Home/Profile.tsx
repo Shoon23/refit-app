@@ -24,6 +24,7 @@ import InfoTab from "../../components/InfoTab";
 import bgImg from "../../assets/backgrounds/3.jpeg";
 import useHomeStore from "../../store/homeStore";
 import useWorkoutPlanStore from "../../store/workoutPlanStore";
+import useBrowseStore from "../../store/browseStore";
 const Profile: React.FC = () => {
   const [isOpenLogout, setIsOpenLogout] = useState(false);
   const router = useIonRouter();
@@ -32,7 +33,7 @@ const Profile: React.FC = () => {
   const { first_name, last_name, clearUser } = useUserStore();
   const { clearHome } = useHomeStore();
   const { clearWorkoutPlan } = useWorkoutPlanStore();
-
+  const { setRecommendations } = useBrowseStore();
   const handleLogOut = async () => {
     await Preferences.remove({ key: "refreshToken" });
     clearHome();

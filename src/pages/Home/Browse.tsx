@@ -31,6 +31,7 @@ import { iWorkoutPage } from "../../types/workout-type";
 import { findWorkout, loadMoreWorkouts } from "../../utils/arrayUtils";
 import bgImg from "../../assets/backgrounds/4.jpeg";
 import useBrowseStore from "../../store/browseStore";
+import useAxios from "../../hooks/useAxios";
 interface BrowseProps {}
 
 const Browse: React.FC<BrowseProps> = () => {
@@ -52,7 +53,7 @@ const Browse: React.FC<BrowseProps> = () => {
     "recommended"
   );
   const { preferences, access_token } = useUserStore();
-
+  const fetch = useAxios();
   const topRef = useRef<HTMLIonHeaderElement>(null);
 
   useEffect(() => {
@@ -116,12 +117,14 @@ const Browse: React.FC<BrowseProps> = () => {
   ) => {
     setSearchKey(searchKey || "");
 
-    const response = await fetchSearch(
-      isChangeWindow ? 1 : currPage,
-      access_token,
-      searchKey,
-      muscleFilters,
-      equipmentFilters
+    const filter = {
+      search_key: searchKey || "",
+      muscles: muscleFilters || [],
+      equipments: equipmentFilters || [],
+    };
+    const response = await fetch.post(
+      `/workouts?page_number=${isChangeWindow ? 1 : currPage}`,
+      filter
     );
     if (isChangeWindow) {
       setCurrPage(1);
@@ -144,12 +147,12 @@ const Browse: React.FC<BrowseProps> = () => {
   const getRecommendations = async (isChangeWindow = false) => {
     const { id, ...pref } = preferences as any;
 
-    const response = await fetchRecommendation(
-      isChangeWindow ? 1 : currPage,
-      pref,
-      access_token
+    const response = await fetch.post(
+      `/workouts/recommendation?is_shuffle=false&page_number=${
+        isChangeWindow ? 1 : currPage
+      }`,
+      pref
     );
-
     if (currPage > 1 && !isChangeWindow) {
       const updatedPage = loadMoreWorkouts(searchResults, response);
       setRecommendations(updatedPage);
@@ -179,7 +182,7 @@ const Browse: React.FC<BrowseProps> = () => {
       if (!searchResults.hasData && status.connected) {
         setIsConnected(true);
         getResult(searchKey, muscleFilters, equipmentFilters, true);
-      } else if (searchResults.hasData) {
+      } else if (searchResults.hasData && !status.connected) {
         setResults(searchResults);
         setIsConnected(true);
       } else if (!searchResults.hasData && !status.connected) {
@@ -193,8 +196,10 @@ const Browse: React.FC<BrowseProps> = () => {
     if (status.connected) {
       if (windowName === "search") {
         getResult(searchKey, muscleFilters, equipmentFilters, true);
+        setIsConnected(true);
       } else {
         getRecommendations(true);
+        setIsConnected(true);
       }
     }
   };

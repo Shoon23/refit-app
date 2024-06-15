@@ -21,10 +21,11 @@ import { exerciseDates } from "../../data/exerciseDate";
 import useSelectWOStore from "../../store/workoutPlanStore";
 import WorkoutCard from "../../components/WorkoutCard";
 import SelectedWorkoutCard from "../../components/SelectedWorkoutCard";
-import { CapacitorHttp } from "@capacitor/core";
+
 import { apiUrlLocal } from "../../env";
 import useUserStore from "../../store/userStore";
 import useHomeStore from "../../store/homeStore";
+import useAxios from "../../hooks/useAxios";
 
 const AddExercisePage: React.FC<RouteComponentProps> = ({ history }) => {
   const { day, selected_workout, clearSelectedWO } = useSelectWOStore();
@@ -36,7 +37,7 @@ const AddExercisePage: React.FC<RouteComponentProps> = ({ history }) => {
     reps: 0,
   });
   const [isError, setIsError] = useState(false);
-
+  const fetch = useAxios();
   const handleOnChange = (e: any) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -49,22 +50,13 @@ const AddExercisePage: React.FC<RouteComponentProps> = ({ history }) => {
   const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const options = {
-        url: apiUrlLocal + "/workout_plan/schedule/assign",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${access_token}`,
-        },
-        data: {
-          day: day.day,
-          workout_day_id: day.id,
-          reps: formData.reps,
-          sets: formData.sets,
-          detail_id: selected_workout.id,
-        },
-      };
-      const response = await CapacitorHttp.post(options);
+      const response = await fetch.post("/workout_plan/schedule/assign", {
+        day: day.day,
+        workout_day_id: day.id,
+        reps: formData.reps,
+        sets: formData.sets,
+        detail_id: selected_workout.id,
+      });
       clearSelectedWO();
       setIsLoadedCurrWO(false);
       router.push("/main/workout-plan/details", "back", "replace");

@@ -31,15 +31,12 @@ import useUserStore from "../store/userStore";
 import exerciseData from "../data/exercises.json";
 import { checkmark } from "ionicons/icons";
 import { capitalizeFirstLetter } from "../utils/stringUtils";
-import { CapacitorHttp } from "@capacitor/core";
+
 import { apiUrlLocal } from "../env";
-import {
-  informationCircle,
-  informationCircleSharp,
-  infiniteOutline,
-} from "ionicons/icons";
+import { informationCircleSharp } from "ionicons/icons";
 import workoutInfo from "../data/wokoutInfo.json";
 import InfoTab from "../components/InfoTab";
+import { CapacitorHttp } from "@capacitor/core";
 const Preference = () => {
   const [selectedMuscles, setSelectedMuscles] = useState<Array<string>>([]);
   const [selectedEquipments, setSelectedEquipments] = useState<Array<string>>(

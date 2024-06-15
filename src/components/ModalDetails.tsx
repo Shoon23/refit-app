@@ -17,8 +17,8 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
-import { apiUrlExternal, apiUrlLocal } from "../env";
-import { CapacitorHttp, HttpResponse, ISODateString } from "@capacitor/core";
+import { apiUrlLocal } from "../env";
+
 import { WorkoutType } from "../types/workout-type";
 
 interface ModalDetailsProps {

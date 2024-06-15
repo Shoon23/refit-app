@@ -30,7 +30,7 @@ import { useEffect, useState } from "react";
 
 import { DayOfWeekType, exerciseDates } from "../../data/exerciseDate";
 import useSelectWOStore from "../../store/workoutPlanStore";
-import { CapacitorHttp } from "@capacitor/core";
+
 import { apiUrlLocal } from "../../env";
 import WorkoutItem from "../../components/WorkoutItem";
 import { iWorkoutPlan } from "../../store/userStore";
@@ -41,9 +41,10 @@ import bgImg from "../../assets/backgrounds/3.jpeg";
 import ken1 from "../../assets/ken_1.jpeg";
 import ken2 from "../../assets/ken_2.jpeg";
 import { Network } from "@capacitor/network";
+import useAxios from "../../hooks/useAxios";
 const WorkoutPlan = () => {
   const router = useIonRouter();
-
+  const fetch = useAxios();
   const [isLoading, setIsLoading] = useState(true);
   const [activeWP, seActiveWP] = useState<iWorkoutPlan>({
     id: "",
@@ -73,15 +74,8 @@ const WorkoutPlan = () => {
         setIsLoading(false);
         return;
       }
-      const options = {
-        url: `${apiUrlLocal}/workout_plans/${id}`,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${access_token}`,
-        },
-      };
-      const response = await CapacitorHttp.get(options);
+
+      const response = await fetch.get(`/workout_plans/${id}`);
       const acttiveWP = response.data.filter((wp: any) => wp.is_active);
       const wp = response.data.filter((wp: any) => !wp.is_active);
       seActiveWP(acttiveWP[0]);
@@ -107,19 +101,10 @@ const WorkoutPlan = () => {
   const handleCreateWP = async (e: any) => {
     e.preventDefault();
     try {
-      const options = {
-        url: `${apiUrlLocal}/workout_plan/add`,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${access_token}`,
-        },
-        data: {
-          user_id: id,
-          name,
-        },
-      };
-      const response = await CapacitorHttp.post(options);
+      const response = await fetch.post(`/workout_plan/add`, {
+        user_id: id,
+        name,
+      });
 
       setIsOpenAddModal(false);
       setWorkoutPlans((prev) => [response.data.workout_plan, ...prev]);

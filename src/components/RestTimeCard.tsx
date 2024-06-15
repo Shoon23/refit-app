@@ -82,140 +82,134 @@ const RestTimeCard: React.FC<RestTimeCardProps> = ({
 
   return (
     <>
-      <IonContent>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          // height: "85%",
+          width: "100%",
+        }}
+      >
+        <IonCard style={{ marginBottom: 0, alignSelf: "start", width: "95%" }}>
+          <IonCardHeader>
+            <IonCardTitle
+              style={{
+                fontSize: "1.6rem",
+                fontWeight: "bolder",
+              }}
+            >
+              Current Exercise:
+            </IonCardTitle>
+            <IonCardTitle
+              style={{
+                fontSize: "1.4rem",
+              }}
+            >
+              {workout.details.name}
+            </IonCardTitle>
+            <IonCardTitle
+              style={{
+                fontSize: "1.4rem",
+              }}
+            >
+              Progress {progressSet}/{workout.sets}
+            </IonCardTitle>
+          </IonCardHeader>
+        </IonCard>
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
-            // height: "85%",
+            fontSize: "2rem",
+            fontWeight: "bold",
+            textAlign: "center",
             width: "100%",
           }}
         >
           <IonCard
-            style={{ marginBottom: 0, alignSelf: "start", width: "95%" }}
-          >
-            <IonCardHeader>
-              <IonCardTitle
-                style={{
-                  fontSize: "1.6rem",
-                  fontWeight: "bolder",
-                }}
-              >
-                Current Exercise:
-              </IonCardTitle>
-              <IonCardTitle
-                style={{
-                  fontSize: "1.4rem",
-                }}
-              >
-                {workout.details.name}
-              </IonCardTitle>
-              <IonCardTitle
-                style={{
-                  fontSize: "1.4rem",
-                }}
-              >
-                Progress {progressSet}/{workout.sets}
-              </IonCardTitle>
-            </IonCardHeader>
-          </IonCard>
-          <div
             style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontSize: "2rem",
-              fontWeight: "bold",
-              textAlign: "center",
               width: "100%",
+              padding: 20,
             }}
           >
-            <IonCard
-              style={{
-                width: "100%",
-                padding: 20,
-              }}
-            >
-              <IonCardHeader>
-                <IonCardTitle
-                  style={{
-                    fontSize: "1.5rem",
-                    margin: 10,
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                  color={"success"}
-                >
-                  Rest Time
-                </IonCardTitle>
-                <IonCardTitle
-                  style={{
-                    fontWeight: "bolder",
-                    fontSize: "5rem",
-                  }}
-                >
-                  {time}
-                </IonCardTitle>
-              </IonCardHeader>
-              <div
-                style={{
-                  display: "flex",
-                  width: "100%",
-                  gap: 5,
-                }}
-              >
-                <IonButton
-                  color={"light"}
-                  style={{
-                    width: "50%",
-                  }}
-                  onClick={handleSkipRestTime}
-                >
-                  Skip
-                </IonButton>
-                <IonButton
-                  style={{
-                    width: "50%",
-                  }}
-                  onClick={() => {
-                    if (time > 600) return;
-                    setTime((prevTime) => prevTime + 20);
-                  }}
-                >
-                  Add 20 secs
-                </IonButton>
-              </div>
-            </IonCard>
-          </div>
-        </div>
-        <IonCard
-          style={{ margin: "0px 10px", alignSelf: "start", width: "95%" }}
-        >
-          {nextWorkout?.id && (
             <IonCardHeader>
               <IonCardTitle
                 style={{
-                  fontSize: "1.6rem",
-                  fontWeight: "bolder",
+                  fontSize: "1.5rem",
+                  margin: 10,
+                  display: "flex",
+                  justifyContent: "space-between",
                 }}
-                color={"medium"}
+                color={"success"}
               >
-                Next Exercise:
+                Rest Time
               </IonCardTitle>
               <IonCardTitle
                 style={{
-                  fontSize: "1.4rem",
+                  fontWeight: "bolder",
+                  fontSize: "5rem",
                 }}
-                color={"medium"}
               >
-                {nextWorkout?.details?.name}
+                {time}
               </IonCardTitle>
             </IonCardHeader>
-          )}
-        </IonCard>
-      </IonContent>
+            <div
+              style={{
+                display: "flex",
+                width: "100%",
+                gap: 5,
+              }}
+            >
+              <IonButton
+                color={"light"}
+                style={{
+                  width: "50%",
+                }}
+                onClick={handleSkipRestTime}
+              >
+                Skip
+              </IonButton>
+              <IonButton
+                style={{
+                  width: "50%",
+                }}
+                onClick={() => {
+                  if (time > 600) return;
+                  setTime((prevTime) => prevTime + 20);
+                }}
+              >
+                Add 20 secs
+              </IonButton>
+            </div>
+          </IonCard>
+        </div>
+      </div>
+      <IonCard style={{ margin: "0px 10px", alignSelf: "start", width: "95%" }}>
+        {nextWorkout?.id && (
+          <IonCardHeader>
+            <IonCardTitle
+              style={{
+                fontSize: "1.6rem",
+                fontWeight: "bolder",
+              }}
+              color={"medium"}
+            >
+              Next Exercise:
+            </IonCardTitle>
+            <IonCardTitle
+              style={{
+                fontSize: "1.4rem",
+              }}
+              color={"medium"}
+            >
+              {nextWorkout?.details?.name}
+            </IonCardTitle>
+          </IonCardHeader>
+        )}
+      </IonCard>
     </>
   );
 };

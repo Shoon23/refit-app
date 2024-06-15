@@ -29,6 +29,7 @@ import FilterOptionsModal from "../../components/FilterOptionsModal";
 import { iWorkoutPage } from "../../types/workout-type";
 import { loadMoreWorkouts } from "../../utils/arrayUtils";
 import WorkoutAddCard from "../../components/WorkoutAddCard";
+import useAxios from "../../hooks/useAxios";
 interface BrowseProps {}
 
 const ExerciseListPage: React.FC<BrowseProps> = () => {
@@ -47,6 +48,7 @@ const ExerciseListPage: React.FC<BrowseProps> = () => {
   );
   const { preferences, access_token } = useUserStore();
   const topRef = useRef<HTMLIonHeaderElement>(null);
+  const fetch = useAxios();
 
   useEffect(() => {
     getRecommendations();
@@ -69,12 +71,22 @@ const ExerciseListPage: React.FC<BrowseProps> = () => {
   ) => {
     setSearchKey(searchKey || "");
 
-    const response = await fetchSearch(
-      isChangeWindow ? 1 : currPage,
-      access_token,
-      searchKey,
-      muscleFilters,
-      equipmentFilters
+    // const response = await fetchSearch(
+    //   isChangeWindow ? 1 : currPage,
+    //   access_token,
+    //   searchKey,
+    //   muscleFilters,
+    //   equipmentFilters
+    // );
+
+    const filter = {
+      search_key: searchKey || "",
+      muscles: muscleFilters || [],
+      equipments: equipmentFilters || [],
+    };
+    const response = await fetch.post(
+      `/workouts?page_number=${isChangeWindow ? 1 : currPage}`,
+      filter
     );
     if (isChangeWindow) {
       setCurrPage(1);
@@ -95,10 +107,16 @@ const ExerciseListPage: React.FC<BrowseProps> = () => {
   const getRecommendations = async (isChangeWindow = false) => {
     const { id, ...pref } = preferences as any;
 
-    const response = await fetchRecommendation(
-      isChangeWindow ? 1 : currPage,
-      pref,
-      access_token
+    // const response = await fetchRecommendation(
+    //   isChangeWindow ? 1 : currPage,
+    //   pref,
+    //   access_token
+    // );
+    const response = await fetch.post(
+      `/workouts/recommendation?is_shuffle=false&page_number=${
+        isChangeWindow ? 1 : currPage
+      }`,
+      pref
     );
 
     setIsLoading(false);

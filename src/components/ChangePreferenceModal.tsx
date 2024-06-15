@@ -21,8 +21,7 @@ import PreferenceOptions from "./Preferences/PreferenceOptions";
 import { Preferences } from "@capacitor/preferences";
 import useUserStore from "../store/userStore";
 import UpdatePrefOption from "./Preferences/UpdatePrefOption";
-import { apiUrlLocal } from "../env";
-import { CapacitorHttp } from "@capacitor/core";
+
 import { checkmark } from "ionicons/icons";
 import { capitalizeFirstLetter } from "../utils/stringUtils";
 import exerciseData from "../data/exercises.json";
@@ -33,6 +32,8 @@ import {
   muscleGroups as mg,
 } from "../data/filterData";
 import useHomeStore from "../store/homeStore";
+import useAxios from "../hooks/useAxios";
+import useBrowseStore from "../store/browseStore";
 interface ChangePreferenceModalProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -52,7 +53,8 @@ const ChangePreferenceModal: React.FC<ChangePreferenceModalProps> = ({
   const [isError, setIsError] = useState(false);
   const { setIsLoadedRecommended } = useHomeStore();
   const { access_token } = useUserStore();
-
+  const fetch = useAxios();
+  const { clearRecommendation } = useBrowseStore();
   useEffect(() => {
     const getUserPref = async () => {
       setUpdatedLevels(preferences?.levels as any);
@@ -212,21 +214,13 @@ const ChangePreferenceModal: React.FC<ChangePreferenceModalProps> = ({
     }
 
     try {
-      const options = {
-        url: apiUrlLocal + "/preferences/update",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${access_token}`,
-        },
-        data: formPref,
-      };
-      const response = await CapacitorHttp.put(options);
+      const response = await fetch.put("/preferences/update", formPref);
 
       if (response.status >= 400) {
         setIsError(true);
         return;
       }
+      clearRecommendation();
       setIsOpen(false);
       setPreference({ ...preferences, ...formPref });
       setIsLoadedRecommended(false);

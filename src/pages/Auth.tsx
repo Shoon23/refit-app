@@ -18,6 +18,7 @@ import {
 import main_logo from "../assets/main-logo.png";
 import { useIonRouter } from "@ionic/react";
 import bgImg from "../assets/backgrounds/1.jpeg";
+import logo from "../assets/Logo.png";
 const Auth: React.FC = () => {
   const router = useIonRouter();
 
@@ -51,7 +52,7 @@ const Auth: React.FC = () => {
             <IonGrid>
               <IonRow class="ion-justify-content-center ion-text-center">
                 <IonCol>
-                  <img alt="Main Logo" src={main_logo} width={"45%"} />
+                  <img alt="Logo" src={logo} width={"45%"} />
                 </IonCol>
               </IonRow>
               <IonRow class="ion-justify-content-center ion-text-center">

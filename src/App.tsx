@@ -14,6 +14,7 @@ import {
 import { IonReactRouter } from "@ionic/react-router";
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
+import "@ionic/react/css/palettes/dark.always.css";
 
 /* Basic CSS for apps built with Ionic */
 import "@ionic/react/css/normalize.css";
@@ -27,37 +28,24 @@ import "@ionic/react/css/text-alignment.css";
 import "@ionic/react/css/text-transformation.css";
 import "@ionic/react/css/flex-utils.css";
 import "@ionic/react/css/display.css";
+import "@ionic/react/css/palettes/dark.always.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+
+// pages
 import Auth from "./pages/Auth";
 import Preference from "./pages/Preference";
-// pages
-
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { AuthMiddleware } from "./middleware/AuthMIddleware";
 import MainPages from "./pages/MainPages";
 import WorkoutSession from "./pages/WorkoutSession";
 import WorkoutSessionStart from "./pages/WorkoutSessionStart";
-import { useEffect } from "react";
-import { CapacitorHttp } from "@capacitor/core";
-import { apiUrlLocal } from "./env";
+
 setupIonicReact();
 
 const App: React.FC = () => {
-  useEffect(() => {
-    const checkDBStatus = async () => {
-      const options = {
-        url: apiUrlLocal + "/login",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      };
-      const response = await CapacitorHttp.post(options);
-    };
-  }, []);
   return (
     <IonApp>
       <IonReactRouter>

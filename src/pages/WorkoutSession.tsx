@@ -98,8 +98,13 @@ const WorkoutSession = () => {
     <IonPage>
       <IonHeader translucent={true} mode="ios">
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonBackButton defaultHref="/main"></IonBackButton>
+          <IonButtons
+            onClick={() => {
+              router.goBack();
+            }}
+            slot="start"
+          >
+            <IonBackButton></IonBackButton>
           </IonButtons>
           <IonTitle>Workout Session</IonTitle>
         </IonToolbar>

@@ -8,12 +8,13 @@ import {
   IonCardSubtitle,
   IonCardTitle,
   IonSpinner,
+  useIonRouter,
 } from "@ionic/react";
 import useUserStore from "../store/userStore";
 import { CapacitorHttp } from "@capacitor/core";
 import { apiUrlLocal } from "../env";
 import { Network } from "@capacitor/network";
-
+import logo from "../assets/Logo.png";
 interface AuthMiddlewareProps {
   children: ReactNode;
 }
@@ -23,7 +24,7 @@ export const AuthMiddleware: React.FC<AuthMiddlewareProps> = ({ children }) => {
   const [isConnected, setIsConnected] = useState(true);
   const [isError, setIsError] = useState(false);
   const { id, setUser } = useUserStore();
-
+  const router = useIonRouter();
   useEffect(() => {
     const checkAuthentication = async () => {
       if (id) {
@@ -57,7 +58,7 @@ export const AuthMiddleware: React.FC<AuthMiddlewareProps> = ({ children }) => {
       if (response.status >= 400) {
         setIsAuthenticated(false);
         setIsLoading(false);
-
+        router.push("/auth", "back", "replace");
         return;
       }
 
@@ -81,8 +82,11 @@ export const AuthMiddleware: React.FC<AuthMiddlewareProps> = ({ children }) => {
         height: "100vh",
         alignItems: "center",
         justifyContent: "center",
+        flexDirection: "column",
+        gap: "30px",
       }}
     >
+      <img alt="Logo" height={200} src={logo} />
       <IonSpinner name="bubbles"></IonSpinner>
     </div>
   ) : !isConnected || isError ? (

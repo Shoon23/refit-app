@@ -20,16 +20,17 @@ import {
   IonInput,
   IonModal,
 } from "@ionic/react";
-import { add } from "ionicons/icons";
+import { add, scanOutline } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
 import { DayOfWeekType, exerciseDates } from "../../data/exerciseDate";
 import WorkoutItem from "../../components/WorkoutItem";
-import { CapacitorHttp } from "@capacitor/core";
+
 import { apiUrlLocal } from "../../env";
 import useWorkoutPlanStore from "../../store/workoutPlanStore";
 import useUserStore from "../../store/userStore";
 import { createOutline } from "ionicons/icons";
 import useHomeStore from "../../store/homeStore";
+import useAxios from "../../hooks/useAxios";
 
 interface WorkoutPlanDetailsProps {}
 
@@ -43,6 +44,7 @@ const WorkoutPlanDetails: React.FC<WorkoutPlanDetailsProps> = () => {
   const [isOpenUpdate, setIsOpenUpdate] = useState(false);
   const [updatedNamed, setUpdatedName] = useState("");
   const [isError, setIsError] = useState(false);
+  const fetch = useAxios();
   const {
     clearSelectedWO,
     setWorkoutDaySelected,
@@ -88,15 +90,8 @@ const WorkoutPlanDetails: React.FC<WorkoutPlanDetailsProps> = () => {
   };
   const fetch_workout_day_exercises = async (id: string | undefined) => {
     setIsLoading(true);
-    const options = {
-      url: `${apiUrlLocal}/workout_plan/schedule/${id}`,
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${access_token}`,
-      },
-    };
-    const response = await CapacitorHttp.get(options);
+
+    const response = await fetch.get(`/workout_plan/schedule/${id}`);
 
     setSelectedExercise(response.data.exercises);
     setIsLoading(false);
@@ -110,15 +105,7 @@ const WorkoutPlanDetails: React.FC<WorkoutPlanDetailsProps> = () => {
 
   const handleDeleteWP = async () => {
     try {
-      const options = {
-        url: `${apiUrlLocal}/workout_plan/${viewDetailsWP.id}`,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${access_token}`,
-        },
-      };
-      const response = await CapacitorHttp.delete(options);
+      const response = await fetch.delete(`/workout_plan/${viewDetailsWP.id}`);
       if (viewDetailsWP.is_active) {
         setUpdateActiveWP({
           id: "",
@@ -137,19 +124,10 @@ const WorkoutPlanDetails: React.FC<WorkoutPlanDetailsProps> = () => {
 
   const handleUsePlan = async () => {
     try {
-      const options = {
-        url: `${apiUrlLocal}/workout_plan/activate`,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${access_token}`,
-        },
-        data: {
-          new_wp_id: viewDetailsWP?.id,
-          old_wp_id: workout_plan?.id,
-        },
-      };
-      const response = await CapacitorHttp.put(options);
+      const response = await fetch.put(`/workout_plan/activate`, {
+        new_wp_id: viewDetailsWP?.id,
+        old_wp_id: workout_plan?.id,
+      });
 
       setUpdateActiveWP(viewDetailsWP);
     } catch (error) {
@@ -162,19 +140,10 @@ const WorkoutPlanDetails: React.FC<WorkoutPlanDetailsProps> = () => {
     e.preventDefault();
 
     try {
-      const options = {
-        url: `${apiUrlLocal}/workout_plan/update`,
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${access_token}`,
-        },
-        data: {
-          workout_plan_id: viewDetailsWP?.id,
-          name: updatedNamed,
-        },
-      };
-      const response = await CapacitorHttp.put(options);
+      const response = await fetch.put(`/workout_plan/update`, {
+        workout_plan_id: viewDetailsWP?.id,
+        name: updatedNamed,
+      });
 
       setViewDetailsWP({ name: updatedNamed });
 

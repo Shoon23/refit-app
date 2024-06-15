@@ -1,8 +1,8 @@
 import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "io.ionic.starter",
-  appName: "ionic-app-base",
+  appId: "io.refit.app",
+  appName: "ReFit",
   webDir: "dist",
   server: {
     androidScheme: "https",

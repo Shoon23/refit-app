@@ -29,7 +29,8 @@ const WorkoutSessionStart = () => {
   const [isFinished, setIsFinished] = useState(false);
   useEffect(() => {
     if (!currentWO?.id) {
-      router.push("/");
+      router.push("/main/home");
+      return;
     }
     setTime(restTimes.rps);
   }, []);
@@ -63,8 +64,6 @@ const WorkoutSessionStart = () => {
       }
     }
   };
-  const gifUrl =
-    "https://raw.githubusercontent.com/facebook/react/master/logo.gif"; // Replace with your transparent GIF URL
 
   return (
     <IonPage>
@@ -73,7 +72,7 @@ const WorkoutSessionStart = () => {
           <IonToolbar>
             <IonButtons slot="start">
               <IonBackButton
-                defaultHref="/main"
+                defaultHref="/main/home"
                 text={"Cancel"}
                 color={"danger"}
               ></IonBackButton>
@@ -83,21 +82,7 @@ const WorkoutSessionStart = () => {
         </IonHeader>
       )}
 
-      <IonContent scrollY={false}>
-        {/* <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundImage: `url(${waveBg})`,
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-            zIndex: -1,
-          }}
-        ></div> */}
+      <IonContent scrollY={true}>
         {!isFinished && (
           <IonCard style={{ marginBottom: 0 }}>
             <IonCardTitle
@@ -176,7 +161,7 @@ const WorkoutSessionStart = () => {
               </IonCardTitle>
               <IonCardSubtitle
                 onClick={() => {
-                  router.push("/");
+                  router.push("/main", "back", "replace");
                 }}
                 color={"primary"}
                 style={{

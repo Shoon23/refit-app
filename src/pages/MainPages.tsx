@@ -7,24 +7,11 @@ import {
   IonTabBar,
   IonTabButton,
   IonTabs,
-  useIonViewWillEnter,
 } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
-import {
-  barbell,
-  calendar,
-  ellipse,
-  home,
-  personCircle,
-  square,
-  triangle,
-} from "ionicons/icons";
+
+import { barbell, calendar, home, personCircle } from "ionicons/icons";
 import Browse from "./Home/Browse";
 import Home from "./Home/Home";
-import { CapacitorHttp } from "@capacitor/core";
-import { Preferences } from "@capacitor/preferences";
-import { useState } from "react";
-import { apiUrlLocal } from "../env";
 import WorkoutPlan from "./Home/WorkoutPlan";
 import Profile from "./Home/Profile";
 import AddExercisePage from "./Home/AddExercisePage";

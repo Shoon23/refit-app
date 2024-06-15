@@ -1,6 +1,6 @@
 import { CapacitorHttp } from "@capacitor/core";
 import { apiUrlLocal } from "../env";
-
+import useAxios from "../hooks/useAxios";
 const fetchSearch = async (
   currPage: number,
   access_token: string,
@@ -8,6 +8,7 @@ const fetchSearch = async (
   muscleFilters?: string[] | null,
   equipmentFilters?: string[] | null
 ) => {
+  const fetch = useAxios();
   const options = {
     url: `${apiUrlLocal}/workouts?page_number=${currPage}`,
     headers: {
