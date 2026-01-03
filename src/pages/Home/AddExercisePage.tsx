@@ -57,6 +57,8 @@ const AddExercisePage: React.FC<RouteComponentProps> = ({ history }) => {
         sets: formData.sets,
         detail_id: selected_workout.id,
       });
+
+      console.log(response);
       clearSelectedWO();
       setIsLoadedCurrWO(false);
       router.push("/main/workout-plan/details", "back", "replace");

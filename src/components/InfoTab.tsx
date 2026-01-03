@@ -25,7 +25,7 @@ import React, { useState, useImperativeHandle } from "react";
 import { capitalizeFirstLetter } from "../utils/stringUtils";
 import workoutInfo from "../data/wokoutInfo.json";
 import { info_img } from "../assets/info_img/info";
-import { apiUrlLocal } from "../env";
+import { apiUrlLocal, imageUrl } from "../env";
 interface InfoTabProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -180,7 +180,7 @@ const InfoTab: React.FC<InfoTabProps> = ({ isOpen, setIsOpen }) => {
 
                         <IonCardHeader>
                           <img
-                            src={apiUrlLocal + "/" + info.image}
+                            src={imageUrl + "/info_img/" + info.image}
                             alt={info.image}
                           />
                           <IonCardSubtitle>{info.info}</IonCardSubtitle>

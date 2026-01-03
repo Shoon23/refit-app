@@ -12,7 +12,7 @@ import {
   IonThumbnail,
 } from "@ionic/react";
 import React, { useState } from "react";
-import { apiUrlLocal } from "../env";
+import { apiUrlLocal, imageUrl } from "../env";
 import ModalDetails from "./ModalDetails";
 import { WorkoutType } from "../types/workout-type";
 import WorkoutItemModal from "./WorkoutItemModal";
@@ -56,7 +56,7 @@ const WorkoutItem: React.FC<WorkoutItemProps> = ({
             alt={workout.name}
             src={
               workout.images && workout.images.length > 0
-                ? apiUrlLocal + "/" + workout?.images[0]
+                ? imageUrl + "/exercises_img/" + workout?.images[0]
                 : ""
             }
             height={"120px"}

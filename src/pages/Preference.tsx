@@ -48,14 +48,12 @@ const Preference = () => {
   const router = useIonRouter();
 
   const [message, setMessage] = useState("");
-  const { setPreference, id, setIsNewUSer } = useUserStore();
+  const { setPreference, id, setIsNewUSer, access_token } = useUserStore();
 
   const [levelTypes, setLevelTypes] = useState([]);
   const [equipmentTypes, setEquipmentTypes] = useState([]);
   const [muscleGroups, setMuscleGroups] = useState([]);
-
   const [isOpen, setIsOpen] = useState(false);
-
   useEffect(() => {
     const eme = () => {
       setLevelTypes(lt as any);
@@ -78,13 +76,14 @@ const Preference = () => {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          Authorization: `Bearer ${access_token}`,
         },
         data: { ...pref, user_id: id },
       };
       const response = await CapacitorHttp.post(options);
 
       if (response.status >= 400) {
-        setMessage("Something Went Wrong Please Try Again");
+        setMessage(response.data.message);
         setIsError(true);
         return;
       }

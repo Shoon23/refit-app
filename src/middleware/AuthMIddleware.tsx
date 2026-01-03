@@ -23,56 +23,57 @@ export const AuthMiddleware: React.FC<AuthMiddlewareProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isConnected, setIsConnected] = useState(true);
   const [isError, setIsError] = useState(false);
-  const { id, setUser } = useUserStore();
+  const { id, setUser, setPreference, setUpdateActiveWP } = useUserStore();
   const router = useIonRouter();
-  useEffect(() => {
-    const checkAuthentication = async () => {
+  const checkAuthentication = async () => {
+    try {
+      setIsLoading(true);
+      setIsError(false);
+      setIsConnected(true);
+
       if (id) {
         setIsAuthenticated(true);
-        setIsLoading(false);
-
         return;
       }
 
-      // if no user id get new token
       const { value } = await Preferences.get({ key: "refreshToken" });
       if (!value) {
         setIsAuthenticated(false);
-        setIsLoading(false);
-
         return;
       }
 
       const status = await Network.getStatus();
-
       if (!status.connected) {
-        setIsLoading(false);
         setIsConnected(false);
         return;
       }
-      const options = {
-        url: apiUrlLocal + `/refresh/${JSON.parse(value)}`,
-      };
-      const response = await CapacitorHttp.get(options);
+
+      const refreshToken = JSON.parse(value);
+
+      const response = await CapacitorHttp.get({
+        url: `${apiUrlLocal}/auth/refresh/${refreshToken}`,
+      });
 
       if (response.status >= 400) {
         setIsAuthenticated(false);
-        setIsLoading(false);
-        router.push("/auth", "back", "replace");
+        router.push("/auth", "root", "replace");
         return;
       }
-
-      setIsAuthenticated(true);
       setUser(response.data);
+      setPreference(response.data.preferences);
+      setUpdateActiveWP(response.data.workout_plan);
+      setIsAuthenticated(true);
+    } catch {
+      setIsError(true);
+    } finally {
       setIsLoading(false);
-    };
-
+    }
+  };
+  useEffect(() => {
     checkAuthentication();
-  }, [handleRetry]);
-
+  }, []);
   function handleRetry() {
-    setIsConnected(true);
-    setIsLoading(true);
+    checkAuthentication();
   }
 
   return isLoading ? (

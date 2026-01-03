@@ -11,7 +11,7 @@ import {
 import React, { useState } from "react";
 import { WorkoutType } from "../types/workout-type";
 import ModalDetails from "./ModalDetails";
-import { apiUrlLocal } from "../env";
+import { apiUrlLocal, imageUrl } from "../env";
 import { motion } from "framer-motion";
 interface WorkoutCardProps {
   workout: WorkoutType;
@@ -22,7 +22,6 @@ interface WorkoutCardProps {
 
 const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, style = {} }) => {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(apiUrlLocal + "/" + workout?.images[0]);
 
   return (
     <motion.div
@@ -42,7 +41,7 @@ const WorkoutCard: React.FC<WorkoutCardProps> = ({ workout, style = {} }) => {
             alt={workout.name}
             src={
               workout.images && workout.images.length > 0
-                ? apiUrlLocal + "/" + workout?.images[0]
+                ? imageUrl + "/exercises_img/" + workout?.images[0]
                 : ""
             }
             style={{

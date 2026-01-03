@@ -135,7 +135,7 @@ const Register: React.FC = () => {
       const { confirm_password, ...rest } = formData;
 
       const options = {
-        url: apiUrlLocal + "/register",
+        url: apiUrlLocal + "/auth/register",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -143,6 +143,7 @@ const Register: React.FC = () => {
         data: rest,
       };
       const response = await CapacitorHttp.post(options);
+
       if (response.status === 409) {
         setMessage("Account Already Exists Please Go To Login Page");
         setIsError(true);
@@ -159,7 +160,7 @@ const Register: React.FC = () => {
         return;
       }
 
-      if (response.status === 500) {
+      if (response.status > 400) {
         setMessage("Something Went Wrong");
         setIsError(true);
         setIsSubmit(false);

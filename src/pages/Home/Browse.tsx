@@ -32,6 +32,14 @@ import { findWorkout, loadMoreWorkouts } from "../../utils/arrayUtils";
 import bgImg from "../../assets/backgrounds/4.jpeg";
 import useBrowseStore from "../../store/browseStore";
 import useAxios from "../../hooks/useAxios";
+const initWorkoutPage = {
+  totalItems: 0,
+  totalPages: 0,
+  currentPage: 0,
+  hasNextPage: true,
+  hasPrevPage: true,
+  workouts: [],
+};
 interface BrowseProps {}
 
 const Browse: React.FC<BrowseProps> = () => {
@@ -126,6 +134,9 @@ const Browse: React.FC<BrowseProps> = () => {
       `/workouts?page_number=${isChangeWindow ? 1 : currPage}`,
       filter
     );
+
+    console.log(response);
+
     if (isChangeWindow) {
       setCurrPage(1);
 
@@ -153,8 +164,9 @@ const Browse: React.FC<BrowseProps> = () => {
       }`,
       pref
     );
+
     if (currPage > 1 && !isChangeWindow) {
-      const updatedPage = loadMoreWorkouts(searchResults, response);
+      const updatedPage = loadMoreWorkouts(recommendations, response);
       setRecommendations(updatedPage);
     } else {
       setRecommendations(response.data);
@@ -318,7 +330,7 @@ const Browse: React.FC<BrowseProps> = () => {
             })
         ) : isConnected ? (
           windowName === "search" ? (
-            results.workouts.length > 0 ? (
+            (results.workouts?.length ?? 0) > 0 ? (
               results.workouts.map((result: WorkoutType, index) => (
                 <WorkoutCard
                   style={
@@ -407,7 +419,7 @@ const Browse: React.FC<BrowseProps> = () => {
                 getRecommendations();
               }
             }
-            setTimeout(() => ev.target.complete(), 1000);
+            ev.target.complete();
           }}
         >
           <IonInfiniteScrollContent
@@ -421,15 +433,6 @@ const Browse: React.FC<BrowseProps> = () => {
       </IonContent>
     </>
   );
-};
-
-const initWorkoutPage = {
-  totalItems: 0,
-  totalPages: 0,
-  currentPage: 0,
-  hasNextPage: true,
-  hasPrevPage: true,
-  workouts: [],
 };
 
 export default Browse;

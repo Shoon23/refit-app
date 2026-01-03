@@ -9,7 +9,7 @@ import {
 import React, { useState } from "react";
 import { WorkoutType } from "../types/workout-type";
 import ModalDetails from "./ModalDetails";
-import { apiUrlLocal } from "../env";
+import { apiUrlLocal, imageUrl } from "../env";
 import useSelectWOStore from "../store/workoutPlanStore";
 interface WorkoutCardProps {
   workout: WorkoutType;
@@ -39,7 +39,7 @@ const SelectedWorkoutCard: React.FC<WorkoutCardProps> = ({ workout }) => {
             alt={workout.name}
             src={
               workout.images && workout.images.length > 0
-                ? apiUrlLocal + "/" + workout?.images[0]
+                ? imageUrl + "/exercises_img/" + workout?.images[0]
                 : ""
             }
             height={"120px"}

@@ -23,6 +23,7 @@ import { capitalizeFirstLetter } from "../../utils/stringUtils";
 import bgImg from "../../assets/backgrounds/4.jpeg";
 import useAxios from "../../hooks/useAxios";
 import { motion } from "framer-motion";
+import { volumeHigh } from "ionicons/icons";
 interface HomeProps {}
 
 const Home: React.FC<HomeProps> = ({}) => {
@@ -39,17 +40,19 @@ const Home: React.FC<HomeProps> = ({}) => {
   const [isLoadingReccom, setIsLoadingReccom] = useState(true);
   const [isLoadingCurrWO, setIsLoadingCurrWO] = useState(true);
   const { workout_plan, preferences, first_name } = useUserStore();
-
   const fetch = useAxios();
   useEffect(() => {
     const fetchWorkoutReccommendation = async () => {
       try {
         const { id, ...pref } = preferences as any;
         const response = await fetch.post("/workouts/recommendation", pref);
+
         setRecommendedWO(response.data.workouts);
         setIsLoadingReccom(false);
         setIsLoadedRecommended(true);
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     };
     const fetchCurrentWorkout = async () => {
       try {

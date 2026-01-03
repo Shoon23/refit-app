@@ -97,7 +97,7 @@ const Login: React.FC = () => {
     setIsSubmit(true);
     try {
       const options = {
-        url: apiUrlLocal + "/login",
+        url: apiUrlLocal + "/auth/login",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",

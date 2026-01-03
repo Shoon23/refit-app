@@ -20,7 +20,7 @@ import {
   IonToolbar,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
-import { apiUrlLocal } from "../env";
+import { apiUrlLocal, imageUrl } from "../env";
 
 import { WorkoutType } from "../types/workout-type";
 import { pencil, checkmark, create, close } from "ionicons/icons";
@@ -193,7 +193,7 @@ const WorkoutItemModal: React.FC<ModalDetailsProps> = ({
         <IonCard>
           <img
             alt={data.details.name}
-            src={apiUrlLocal + "/" + workoutDetail.images[currImg]}
+            src={imageUrl + "/exercises_img/" + workoutDetail.images[currImg]}
             height={"50%"}
           />
 

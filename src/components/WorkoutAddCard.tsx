@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 import { WorkoutType } from "../types/workout-type";
 import ModalDetails from "./ModalDetails";
-import { apiUrlLocal } from "../env";
+import { apiUrlLocal, imageUrl } from "../env";
 import useSelectWOStore from "../store/workoutPlanStore";
 import { motion } from "framer-motion";
 interface WorkoutCardProps {
@@ -28,6 +28,7 @@ const WorkoutAddCard: React.FC<WorkoutCardProps> = ({
   const { setWorkout } = useSelectWOStore();
 
   const router = useIonRouter();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -50 }}
@@ -46,7 +47,7 @@ const WorkoutAddCard: React.FC<WorkoutCardProps> = ({
             alt={workout.name}
             src={
               workout.images && workout.images.length > 0
-                ? apiUrlLocal + "/" + workout?.images[0]
+                ? imageUrl + "/exercises_img/" + workout?.images[0]
                 : ""
             }
             height={"120px"}

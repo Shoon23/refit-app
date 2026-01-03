@@ -18,13 +18,16 @@ interface iAxiosHook {
 }
 
 const useAxios = () => {
-  const { setUser, access_token } = useUserStore();
+  const { setUser, access_token, setPreference, setUpdateActiveWP } =
+    useUserStore();
+
   const router = useIonRouter();
   const axiosInstance = axios.create({
     baseURL: apiUrlLocal,
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
+      Authorization: `Bearer ${access_token}`,
     },
   });
 
@@ -39,7 +42,7 @@ const useAxios = () => {
         const { value } = await Preferences.get({ key: "refreshToken" });
 
         const options = {
-          url: apiUrlLocal + `/refresh/${JSON.parse(value as string)}`,
+          url: apiUrlLocal + `/auth/refresh/${JSON.parse(value as string)}`,
         };
         const response = await CapacitorHttp.get(options);
 
@@ -50,7 +53,8 @@ const useAxios = () => {
         }
 
         setUser(response.data);
-
+        setPreference(response.data.preferences);
+        setUpdateActiveWP(response.data.workout_plan);
         config.headers = {
           ...(config.headers || {}),
           Authorization: `Bearer ${response.data?.access_token ?? ""}`,
