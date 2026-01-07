@@ -12,7 +12,6 @@ import {
   IonCard,
   IonCardContent,
 } from "@ionic/react";
-import React from "react";
 import { muscleGroups, equipmentTypes } from "../data/filterData";
 import PreferenceOptions from "./Preferences/PreferenceOptions";
 import FilterOptions from "./FilterOptions";

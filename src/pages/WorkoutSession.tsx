@@ -24,7 +24,7 @@ import {
   IonSpinner,
 } from "@ionic/react";
 import { checkmark, close } from "ionicons/icons";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import bgImg from "../assets/backgrounds/4.jpeg";
 import useHomeStore from "../store/homeStore";
 import { swapArrayValue } from "../utils/arrayUtils";

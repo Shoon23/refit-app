@@ -21,7 +21,7 @@ import {
   IonModal,
 } from "@ionic/react";
 import { add, scanOutline } from "ionicons/icons";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DayOfWeekType, exerciseDates } from "../../data/exerciseDate";
 import WorkoutItem from "../../components/WorkoutItem";
 

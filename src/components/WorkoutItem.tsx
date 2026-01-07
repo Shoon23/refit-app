@@ -11,7 +11,7 @@ import {
   IonRow,
   IonThumbnail,
 } from "@ionic/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { apiUrlLocal, imageUrl } from "../env";
 import ModalDetails from "./ModalDetails";
 import { WorkoutType } from "../types/workout-type";

@@ -21,7 +21,7 @@ import {
   informationCircleSharp,
   options,
 } from "ionicons/icons";
-import React, { useState, useImperativeHandle } from "react";
+import { useState, useImperativeHandle } from "react";
 import { capitalizeFirstLetter } from "../utils/stringUtils";
 import workoutInfo from "../data/wokoutInfo.json";
 import { info_img } from "../assets/info_img/info";

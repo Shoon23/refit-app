@@ -7,7 +7,6 @@ import {
   IonAvatar,
 } from "@ionic/react";
 import { checkmark } from "ionicons/icons";
-import React from "react";
 import { equipmentTypes } from "../../data/filterData";
 import { capitalizeFirstLetter } from "../../utils/stringUtils";
 import avatar from "../../assets/avatar.svg";

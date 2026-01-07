@@ -15,7 +15,7 @@ import {
   IonCardContent,
   IonAlert,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { RouteComponentProps } from "react-router";
 import { exerciseDates } from "../../data/exerciseDate";
 import useSelectWOStore from "../../store/workoutPlanStore";

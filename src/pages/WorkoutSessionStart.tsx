@@ -12,7 +12,7 @@ import {
   IonCardHeader,
   IonCardSubtitle,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import WorkoutCard from "../components/WorkoutCard";
 import useHomeStore from "../store/homeStore";
 import SessionCard from "../components/SessionCard";

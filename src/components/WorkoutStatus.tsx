@@ -5,7 +5,6 @@ import {
   IonButton,
   useIonRouter,
 } from "@ionic/react";
-import React from "react";
 
 import workoutDayImg from "../assets/sam_sulek.webp";
 import restDayImg from "../assets/black_sleep.avif";

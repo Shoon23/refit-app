@@ -7,7 +7,7 @@ import {
   IonLabel,
   useIonRouter,
 } from "@ionic/react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { WorkoutType } from "../types/workout-type";
 import ModalDetails from "./ModalDetails";
 import { apiUrlLocal, imageUrl } from "../env";

@@ -14,7 +14,7 @@ import {
   IonSegmentButton,
 } from "@ionic/react";
 import { useEffect, useState } from "react";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { options } from "ionicons/icons";
 import { Network } from "@capacitor/network";
 import { WorkoutType } from "../../types/workout-type";

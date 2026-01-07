@@ -13,7 +13,6 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import React from "react";
 
 interface InstructionModalProps {
   instructions: string[];

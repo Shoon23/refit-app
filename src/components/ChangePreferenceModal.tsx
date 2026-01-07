@@ -15,7 +15,7 @@ import {
   IonLabel,
   IonRow,
 } from "@ionic/react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { levelTypes, muscleGroups, equipmentTypes } from "../data/filterData";
 import PreferenceOptions from "./Preferences/PreferenceOptions";
 import { Preferences } from "@capacitor/preferences";
@@ -55,6 +55,7 @@ const ChangePreferenceModal: React.FC<ChangePreferenceModalProps> = ({
   const { access_token } = useUserStore();
   const fetch = useAxios();
   const { clearRecommendation } = useBrowseStore();
+
   useEffect(() => {
     const getUserPref = async () => {
       setUpdatedLevels(preferences?.levels as any);

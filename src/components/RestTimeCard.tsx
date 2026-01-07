@@ -6,7 +6,7 @@ import {
   IonCardTitle,
   IonContent,
 } from "@ionic/react";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import bgImg from "../assets/sleeping_sulek.jpeg";
 import { WorkoutType } from "../types/workout-type";
 import ken2 from "../assets/ken_2.jpeg";

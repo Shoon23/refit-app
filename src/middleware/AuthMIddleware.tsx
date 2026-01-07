@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { Route, Redirect, useLocation } from "react-router-dom";
 import { isAuthenticated } from "../utils/authUtils";
 import { Preferences } from "@capacitor/preferences";

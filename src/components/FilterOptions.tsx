@@ -8,8 +8,6 @@ import {
   IonButton,
 } from "@ionic/react";
 
-import React from "react";
-
 import { capitalizeFirstLetter } from "../utils/stringUtils";
 
 interface FilterOptionsProps {

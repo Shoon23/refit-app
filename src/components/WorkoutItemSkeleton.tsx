@@ -1,6 +1,4 @@
 import { IonCard, IonLabel, IonSkeletonText } from "@ionic/react";
-import React from "react";
-import { apiUrlLocal } from "../env";
 
 const WorkoutItemSkeleton = () => {
   return (
