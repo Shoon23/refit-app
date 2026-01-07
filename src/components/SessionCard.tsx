@@ -20,7 +20,7 @@ import {
   useIonRouter,
 } from "@ionic/react";
 import React, { useEffect, useState } from "react";
-import { apiUrlLocal } from "../env";
+import { apiUrlLocal, imageUrl } from "../env";
 import { CapacitorHttp, HttpResponse, ISODateString } from "@capacitor/core";
 import { WorkoutType } from "../types/workout-type";
 import "../components/sessionCard.css";
@@ -100,7 +100,9 @@ const SessionCard: React.FC<ModalDetailsProps> = ({
           >
             <img
               alt={workout.details.name}
-              src={apiUrlLocal + "/" + workoutDetail?.images[currImg]}
+              src={
+                imageUrl + "/exercises_img/" + workoutDetail?.images[currImg]
+              }
               style={{
                 position: "absolute",
                 top: 0,

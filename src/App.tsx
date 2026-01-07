@@ -32,7 +32,7 @@ import "@ionic/react/css/palettes/dark.always.css";
 
 /* Theme variables */
 import "./theme/variables.css";
-
+import "./global.css";
 // pages
 import Auth from "./pages/Auth";
 import Preference from "./pages/Preference";
@@ -47,28 +47,40 @@ setupIonicReact();
 
 const App: React.FC = () => {
   return (
-    <IonApp>
-      <IonReactRouter>
-        <IonRouterOutlet>
-          <AuthMiddleware>
-            <Route path="/main" render={() => <MainPages />} />
-            <Route path="/workout-session" render={() => <WorkoutSession />} />
-            <Route
-              path="/workout-session/start"
-              render={() => <WorkoutSessionStart />}
-            />
-          </AuthMiddleware>
-          <Route exact path="/">
-            <Redirect to="/main" />
-          </Route>
+    <>
+      {/* Preview message */}
+      <div className="preview-banner">
+        This is a preview only. Built for mobile devices.
+      </div>
 
-          <Route exact path="/auth" render={() => <Auth />} />
-          <Route exact path="/login" render={() => <Login />} />
-          <Route exact path="/register" render={() => <Register />} />
-          <Route exact path="/preference" render={() => <Preference />} />
-        </IonRouterOutlet>
-      </IonReactRouter>
-    </IonApp>
+      {/* Forced mobile container */}
+      <IonApp className="force-mobile">
+        <IonReactRouter>
+          <IonRouterOutlet>
+            <AuthMiddleware>
+              <Route path="/main" render={() => <MainPages />} />
+              <Route
+                path="/workout-session"
+                render={() => <WorkoutSession />}
+              />
+              <Route
+                path="/workout-session/start"
+                render={() => <WorkoutSessionStart />}
+              />
+            </AuthMiddleware>
+
+            <Route exact path="/">
+              <Redirect to="/main" />
+            </Route>
+
+            <Route exact path="/auth" render={() => <Auth />} />
+            <Route exact path="/login" render={() => <Login />} />
+            <Route exact path="/register" render={() => <Register />} />
+            <Route exact path="/preference" render={() => <Preference />} />
+          </IonRouterOutlet>
+        </IonReactRouter>
+      </IonApp>
+    </>
   );
 };
 
