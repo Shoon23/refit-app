@@ -71,7 +71,7 @@ const WorkoutItemModal: React.FC<ModalDetailsProps> = ({
     setDetails({ sets: data.sets, reps: data.reps });
   }, []);
   const intervalTime: number = 1000;
-  let intervalId: NodeJS.Timeout;
+  let intervalId: any;
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   useEffect(() => {
     const toggleImage = () => {
